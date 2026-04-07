@@ -1,0 +1,2963 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+% -------------------------------------------------
+% Basic packages
+% -------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=1.18in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usetikzlibrary{arrows.meta,calc,positioning,decorations.pathreplacing,angles,quotes,intersections,patterns,3d,babel}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+% -------------------------------------------------
+% Hyperref setup
+% -------------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=red!55!black,
+  urlcolor=teal!60!black,
+  pdftitle={Mis notas de Lineal},
+  pdfauthor={César Galindo}
+}
+
+% -------------------------------------------------
+% Theorem environments
+% -------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{conjecture}[theorem]{Conjetura}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{example}[theorem]{Ejemplo}
+\newtheorem{exercise}[theorem]{Ejercicio}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Observación}
+
+
+% -------------------------------------------------
+% Fancy page and heading style
+% -------------------------------------------------
+\definecolor{ihesblue}{RGB}{25,62,114}
+\definecolor{ihesgold}{RGB}{160,120,40}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textsc{Mis notas de Lineal}}
+\fancyhead[R]{\textsc{César Galindo}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\large\bfseries\color{ihesblue}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ihesblue}}{\thesubsection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.9em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.8em}
+\tcbset{colback=white,colframe=ihesblue!65!black,boxrule=0.5pt,arc=1.5pt}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+
+% -------------------------------------------------
+% Pedagogical boxes and theorem styling
+% -------------------------------------------------
+\newtcolorbox{ideaBox}[1][]{enhanced,breakable,colback=blue!2,colframe=ihesblue,
+  borderline west={1.5pt}{0pt}{ihesblue},title=Idea central,fonttitle=\bfseries,#1}
+\newtcolorbox{intuitionBox}[1][]{enhanced,breakable,colback=teal!3,colframe=teal!55!black,
+  borderline west={1.5pt}{0pt}{teal!70!black},title=Intuición geométrica,fonttitle=\bfseries,#1}
+\newtcolorbox{methodBox}[1][]{enhanced,breakable,colback=ihesgold!6!white,colframe=ihesgold!70!black,
+  borderline west={1.5pt}{0pt}{ihesgold!80!black},title=Método de trabajo,fonttitle=\bfseries,#1}
+\newtcolorbox{summaryBox}[1][]{enhanced,breakable,colback=gray!4,colframe=black!55,
+  borderline west={1.5pt}{0pt}{black!70},title=Qué conviene recordar,fonttitle=\bfseries,#1}
+\newtcolorbox{warningBox}[1][]{enhanced,breakable,colback=red!2,colframe=red!55!black,
+  borderline west={1.5pt}{0pt}{red!75!black},title=Error frecuente,fonttitle=\bfseries,#1}
+
+\tcolorboxenvironment{theorem}{enhanced jigsaw,breakable,colback=blue!1,colframe=ihesblue,
+  boxrule=0.7pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+\tcolorboxenvironment{proposition}{enhanced jigsaw,breakable,colback=blue!1,colframe=ihesblue!85!black,
+  boxrule=0.65pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+\tcolorboxenvironment{lemma}{enhanced jigsaw,breakable,colback=blue!1,colframe=ihesblue!85!black,
+  boxrule=0.65pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+\tcolorboxenvironment{corollary}{enhanced jigsaw,breakable,colback=blue!1,colframe=ihesblue!70!black,
+  boxrule=0.65pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+\tcolorboxenvironment{definition}{enhanced jigsaw,breakable,colback=teal!2,colframe=teal!60!black,
+  boxrule=0.65pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+\tcolorboxenvironment{example}{enhanced jigsaw,breakable,colback=ihesgold!5!white,colframe=ihesgold!70!black,
+  boxrule=0.65pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+\tcolorboxenvironment{exercise}{enhanced jigsaw,breakable,colback=gray!3,colframe=black!60,
+  boxrule=0.65pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+\tcolorboxenvironment{remark}{enhanced jigsaw,breakable,colback=white,colframe=black!55,
+  boxrule=0.55pt,arc=1.2pt,left=6pt,right=6pt,top=6pt,bottom=6pt,before skip=10pt,after skip=10pt}
+
+
+% -------------------------------------------------
+% Macros
+% -------------------------------------------------
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\Ima}{\mathrm{Im}}
+\newcommand{\rk}{\mathrm{rk}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\Span}{\mathrm{span}}
+\newcommand{\Ann}{\mathrm{Ann}}
+\newcommand{\Mat}{\mathrm{Mat}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\Orth}{\mathrm{O}}
+\newcommand{\U}{\mathrm{U}}
+\newcommand{\spec}{\mathrm{Spec}}
+\newcommand{\charpol}{\chi}
+\newcommand{\transpose}{^{\mathsf{T}}}
+\newcommand{\adj}{^{*}}
+\newcommand{\angles}[1]{\left\langle #1 \right\rangle}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
+
+% -------------------------------------------------
+% Title
+% -------------------------------------------------
+\title{\vspace{-1.5em}{\Huge\bfseries\color{ihesblue} Mis notas de Lineal}\\[0.4em]{\large Facultad de Ciencias}}
+\author{\Large César Galindo}
+\date{2008}
+
+% -------------------------------------------------
+% Document
+% -------------------------------------------------
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\tableofcontents
+\bigskip
+
+
+Estas notas ofrecen una exposición rigurosa y autocontenida de álgebra lineal de dimensión finita sobre un campo \(\K\). El principio rector es que los objetos fundamentales no son las matrices en sí mismas, sino los espacios vectoriales y las transformaciones lineales; las matrices aparecen como representaciones coordinadas de fenómenos invariantes. Se desarrollan con detalle los conceptos de espacio vectorial, subespacio, base, dimensión, suma directa, cocientes, transformaciones lineales, rango y nulidad, dualidad, matrices, determinantes, polinomio característico, eigenvalores, diagonalización, triangulación, formas bilineales, productos internos, operadores adjuntos y el teorema espectral. Cada sección contiene ejemplos trabajados, con el fin de mostrar no solo los resultados abstractos sino también el mecanismo efectivo de cálculo.
+
+\begin{ideaBox}
+Estas notas pueden leerse en tres capas. La primera es \emph{geométrica}: líneas, planos, proyecciones y descomposiciones ortogonales. La segunda es \emph{algebraica}: bases, coordenadas, matrices y ecuaciones lineales. La tercera es \emph{estructural}: qué objetos no cambian cuando cambiamos de coordenadas. Esa tercera capa es la que da unidad al curso entero.
+\end{ideaBox}
+
+\begin{summaryBox}
+A lo largo del texto conviene mantener siempre presentes cuatro preguntas:
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item ¿qué depende de las coordenadas y qué es intrínseco?,
+\item ¿qué espacio está siendo descrito?,
+\item ¿qué aplicación lineal está actuando?,
+\item ¿qué descomposición natural simplifica el problema?
+\end{enumerate}
+Cuando se tiene claridad sobre estas cuatro cuestiones, la mayoría de los cálculos de álgebra lineal dejan de verse como recetas aisladas y pasan a ser manifestaciones de una misma arquitectura conceptual.
+\end{summaryBox}
+
+
+
+\section{¿En qué se usa el álgebra lineal todos los días?}
+\begin{ideaBox}
+Aunque muchas veces se presenta como una teoría abstracta de vectores y matrices, el álgebra lineal aparece diariamente cada vez que organizamos datos, comprimimos información, hacemos predicciones, segmentamos clientes, medimos riesgo o entrenamos modelos de inteligencia artificial. En el fondo, casi toda aplicación moderna consiste en tres pasos: representar objetos como vectores, transformarlos linealmente y extraer estructura a partir de esas transformaciones.
+\end{ideaBox}
+
+\begin{intuitionBox}
+Una forma muy útil de pensar el tema es la siguiente: una tabla de datos ya es un objeto lineal. Si cada fila representa un cliente, un producto, una observación financiera o una imagen, entonces el problema práctico consiste en detectar direcciones importantes, relaciones entre variables, proyecciones relevantes o descomposiciones que simplifiquen la complejidad del sistema. Esa es exactamente la clase de preguntas que responde el álgebra lineal.
+\end{intuitionBox}
+
+\begin{summaryBox}
+\textbf{Ruta conceptual de la sección.} Primero veremos una panorámica general; después, cuatro ámbitos concretos de uso cotidiano ---inteligencia artificial, Business Analytics, Marketing y Finanzas---; finalmente, cerraremos con un cuadro sinóptico que conecte cada concepto lineal con una decisión real.
+\end{summaryBox}
+
+\subsection{Una visión panorámica}
+
+\vspace{0.55em}
+
+El lenguaje lineal aparece cuando queremos responder preguntas como: ¿qué variables explican mejor un fenómeno?, ¿cómo reducir miles de características a unas pocas dimensiones interpretables?, ¿cómo medir similitud entre usuarios o productos?, ¿cómo separar señal y ruido?, ¿cómo asignar capital bajo restricciones?, ¿cómo propagar una entrada a través de una red neuronal?
+
+\medskip
+
+Dicho de otro modo: cuando una situación real puede organizarse en una tabla de datos, en un sistema de ecuaciones o en una red de relaciones entre variables, casi siempre hay matrices, subespacios, proyecciones, eigenvalores o productos internos detrás de la operación concreta. El paso verdaderamente útil del álgebra lineal consiste en volver visible esa estructura.
+
+\begin{intuitionBox}
+Una visión panorámica útil es la siguiente: primero la realidad produce \emph{datos}; después elegimos una \emph{representación vectorial}; enseguida aplicamos \emph{herramientas lineales} para resumir, comparar o transformar; finalmente interpretamos el resultado como una \emph{decisión}. Ese ciclo aparece una y otra vez en IA, analítica de negocios, marketing y finanzas.
+\end{intuitionBox}
+
+\vspace{1.15em}
+
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex]
+  % top layer
+  \node[draw=black!55, rounded corners=6pt, fill=gray!4, align=center, minimum width=10.4cm, minimum height=1.05cm] (real) at (0,5.4) {\textbf{Problemas del mundo real}\\clientes, campañas, activos, transacciones, textos, imágenes};
+
+  % middle vertical chain
+  \node[draw=teal!70!black, rounded corners=7pt, fill=teal!6, align=center, minimum width=8.1cm, minimum height=1.1cm] (repr) at (0,3.2) {\textbf{Representación lineal}\\vectores, tablas de datos, matrices, series de características};
+  \node[draw=ihesblue, very thick, rounded corners=8pt, fill=blue!5, align=center, minimum width=8.3cm, minimum height=1.25cm] (tools) at (0,0.7) {\textbf{Herramientas de álgebra lineal}\\cambios de base, proyecciones, productos internos, autovalores, factorizaciones};
+
+  % applications
+  \node[draw=teal!70!black, rounded corners=6pt, fill=teal!5, align=center, minimum width=4.2cm, minimum height=1.15cm] (IA) at (-5.25,-2.45) {\textbf{IA}\\embeddings, redes, PCA};
+  \node[draw=ihesgold!80!black, rounded corners=6pt, fill=yellow!10, align=center, minimum width=4.45cm, minimum height=1.15cm] (BA) at (5.25,-2.45) {\textbf{Business Analytics}\\pronóstico, segmentación};
+  \node[draw=purple!70!black, rounded corners=6pt, fill=purple!6, align=center, minimum width=4.15cm, minimum height=1.15cm] (MK) at (-5.25,-5.1) {\textbf{Marketing}\\recomendación, atribución};
+  \node[draw=red!70!black, rounded corners=6pt, fill=red!5, align=center, minimum width=4.15cm, minimum height=1.15cm] (FI) at (5.25,-5.1) {\textbf{Finanzas}\\riesgo, portafolios, factores};
+
+  % connectors
+  \draw[thick, ihesblue] (real) -- node[right,fill=white,inner sep=2pt,font=\small] {medición} (repr);
+  \draw[thick, ihesblue] (repr) -- node[right,fill=white,inner sep=2pt,font=\small] {modelación} (tools);
+  \draw[thick, ihesblue] (tools) -- (IA);
+  \draw[thick, ihesblue] (tools) -- (BA);
+  \draw[thick, ihesblue] (tools) -- (MK);
+  \draw[thick, ihesblue] (tools) -- (FI);
+
+  % action labels
+  \node[fill=white, inner sep=2pt, font=\small, text=ihesblue] at (-3.05,-0.95) {comparar};
+  \node[fill=white, inner sep=2pt, font=\small, text=ihesblue] at (3.05,-0.95) {predecir};
+  \node[fill=white, inner sep=2pt, font=\footnotesize, text=ihesblue] at (-4.05,-3.55) {comprimir};
+  \node[fill=white, inner sep=2pt, font=\footnotesize, text=ihesblue] at (4.05,-3.55) {optimizar};
+\end{tikzpicture}
+
+\par\vspace{2.0em}
+\begin{minipage}{0.88\textwidth}
+\centering
+\setlength{\parskip}{0.45em}
+{\small\bfseries\color{ihesblue}Mapa conceptual}
+
+{\small El álgebra lineal actúa como un puente entre los datos del mundo real y las decisiones. Primero organiza la información en vectores y matrices; después la transforma mediante proyecciones, cambios de base y descomposiciones; finalmente la vuelve interpretable para comparar, predecir, segmentar u optimizar.}
+\end{minipage}
+\end{center}
+
+\vspace{1.0em}
+
+\begin{summaryBox}
+\textbf{Idea sintética.} En la práctica, el álgebra lineal convierte datos dispersos en estructura visible. Permite pasar de una colección de números a una geometría: direcciones dominantes, agrupamientos, correlaciones, proyecciones, descomposiciones y reglas de decisión.
+\end{summaryBox}
+
+\subsection{Inteligencia artificial}
+
+En inteligencia artificial, casi todo se formula en términos de vectores y matrices. Una imagen puede verse como una matriz de pixeles; un texto puede convertirse en un vector de características o en un \emph{embedding}; una capa de una red neuronal transforma una entrada $x\in\R^n$ mediante una expresión del tipo
+\[
+y=\sigma(Wx+b),
+\]
+donde $W$ es una matriz de pesos y $b$ es un vector de sesgos. Sin álgebra lineal no hay forma de describir de manera compacta esta propagación de información.
+
+\begin{example}[Ejemplos cotidianos en IA]
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item \textbf{Recomendadores:} plataformas de streaming o comercio electrónico representan usuarios y productos como vectores; la cercanía entre ellos se mide con productos internos o similitudes angulares.
+\item \textbf{Procesamiento de lenguaje:} palabras y oraciones se codifican como vectores de gran dimensión. La idea de que términos semánticamente cercanos ocupen regiones cercanas del espacio es puramente geométrica.
+\item \textbf{Reducción de dimensión:} técnicas como PCA buscan las direcciones principales de variación para comprimir información, visualizar datos o eliminar ruido antes de entrenar un modelo.
+\item \textbf{Visión computacional:} filtros, convoluciones, transformaciones lineales y descomposiciones matriciales aparecen en reconocimiento de imágenes, compresión y clasificación.
+\end{enumerate}
+\end{example}
+
+\begin{methodBox}
+Cuando en IA se habla de \emph{features}, \emph{embeddings}, \emph{weights}, \emph{layers} o \emph{latent factors}, casi siempre se está hablando en realidad de objetos de álgebra lineal: vectores, matrices, bases, proyecciones o cambios de coordenadas.
+\end{methodBox}
+
+\subsection{Business Analytics}
+
+Business Analytics trabaja casi siempre con una matriz de datos: filas que representan observaciones (clientes, sucursales, días, productos, regiones) y columnas que representan variables (ventas, costo, margen, tiempo, canal, inventario, conversión). Una gran parte del trabajo consiste en detectar patrones útiles dentro de esa matriz.
+
+\begin{example}[Ejemplos concretos en Business Analytics]
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item \textbf{Pronóstico de demanda:} si se quiere anticipar ventas futuras, se construye una matriz con variables históricas y se ajusta un modelo lineal o multivariado para explicar la demanda en función de precio, estacionalidad, promociones y comportamiento pasado.
+\item \textbf{Segmentación de clientes:} cada cliente se describe mediante un vector de atributos; después se comparan distancias o similitudes para agrupar perfiles parecidos y diseñar estrategias diferenciadas.
+\item \textbf{Detección de variables clave:} con PCA o análisis factorial se identifican pocas combinaciones lineales que resumen mucha información, lo cual simplifica tableros ejecutivos y modelos de decisión.
+\item \textbf{Optimización operativa:} problemas de asignación de recursos, mezcla de productos o planificación logística se formulan mediante sistemas lineales y matrices de restricciones.
+\end{enumerate}
+\end{example}
+
+\subsection{Marketing}
+
+En marketing, el álgebra lineal aparece cuando se modela el comportamiento del consumidor, se estudia la afinidad entre productos y audiencias, o se mide el efecto conjunto de múltiples canales de campaña.
+
+\begin{example}[Ejemplos concretos en Marketing]
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item \textbf{Sistemas de recomendación:} una matriz usuario--producto registra compras, clics o calificaciones. Al factorizar esa matriz, pueden descubrirse gustos latentes y sugerirse productos probables de interés.
+\item \textbf{Segmentación por comportamiento:} variables como frecuencia de compra, ticket promedio, canal favorito y tasa de respuesta pueden verse como coordenadas de un vector cliente; esto permite agrupar audiencias con herramientas geométricas.
+\item \textbf{Atribución multicanal:} cuando una conversión depende de email, redes sociales, anuncios pagos y tráfico orgánico, el efecto agregado puede estudiarse mediante modelos matriciales que separan contribuciones y relaciones entre variables.
+\item \textbf{Análisis de percepción de marca:} encuestas y escalas pueden resumirse en matrices, y luego visualizarse en espacios de menor dimensión para detectar asociaciones entre atributos de marca y segmentos de consumidores.
+\end{enumerate}
+\end{example}
+
+\subsection{Finanzas}
+
+Finanzas es uno de los terrenos naturales del álgebra lineal. Los rendimientos de varios activos se organizan en vectores y la dependencia entre ellos se resume en matrices de covarianza. A partir de ahí se calculan combinaciones eficientes, riesgos agregados y exposiciones a factores.
+
+\begin{example}[Ejemplos concretos en Finanzas]
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item \textbf{Portafolios:} si $w\in\R^n$ es el vector de ponderaciones y $\Sigma$ la matriz de covarianzas, el riesgo del portafolio se expresa como $w^{\mathsf T}\Sigma w$. Esta sola fórmula concentra una gran parte de la teoría moderna de portafolios.
+\item \textbf{Cobertura y exposición:} una cartera puede escribirse como combinación lineal de factores de riesgo; el problema es entonces medir y ajustar la exposición en ciertas direcciones del espacio financiero.
+\item \textbf{Modelos multifactoriales:} rendimientos, inflación, tasas, tipo de cambio y mercado pueden organizarse en matrices para estimar sensibilidades y descomponer fuentes de variación.
+\item \textbf{Curvas y series múltiples:} al analizar muchos activos simultáneamente, las herramientas de autovalores y vectores propios ayudan a detectar factores comunes, regímenes dominantes o compresiones de dimensión.
+\end{enumerate}
+\end{example}
+
+\begin{center}
+\vspace{0.4em}
+\begin{tikzpicture}[>=Latex,node distance=1.35cm]
+  \node[draw=black!60, rounded corners=6pt, fill=gray!3, align=center, text width=3.2cm, minimum height=1.85cm] (D) {\textbf{Datos crudos}\\[-0.1em]\footnotesize clientes, precios, activos, textos};
+  \node[draw=ihesblue, rounded corners=6pt, fill=blue!4, align=center, text width=4.25cm, minimum height=1.85cm, right=of D] (M) {\textbf{Modelo lineal o geométrico}\\[-0.1em]\footnotesize PCA, regresión, proyecciones, factores};
+  \node[draw=teal!60!black, rounded corners=6pt, fill=teal!5, align=center, text width=3.35cm, minimum height=1.85cm, right=of M] (A) {\textbf{Acción concreta}\\[-0.1em]\footnotesize recomendar, segmentar, invertir, optimizar};
+  \draw[->, thick, ihesblue] (D) -- (M);
+  \draw[->, thick, ihesblue] (M) -- (A);
+\end{tikzpicture}
+\vspace{0.45em}
+\end{center}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.24\textwidth} >{\raggedright\arraybackslash}p{0.31\textwidth} >{\raggedright\arraybackslash}p{0.31\textwidth}}
+\toprule
+\textbf{Concepto lineal} & \textbf{Uso real} & \textbf{Ejemplo concreto} \\
+\midrule
+Vectores y productos internos & Medir similitud y cercanía & Comparar clientes, documentos o productos en sistemas de recomendación \\
+Matrices de datos & Organizar información multivariada & Tablero con ventas, costos, conversión y márgenes por sucursal \\
+Sistemas lineales & Resolver restricciones simultáneas & Asignar presupuesto o mezcla óptima de productos \\
+Proyecciones y mínimos cuadrados & Ajustar modelos y pronósticos & Estimar demanda o respuesta a campañas \\
+Autovalores y vectores propios & Detectar factores dominantes & Encontrar componentes principales en encuestas o rendimientos \\
+Matrices de covarianza & Medir dependencia y riesgo conjunto & Construir portafolios y analizar exposición de activos \\
+\bottomrule
+\end{tabular}
+\par\vspace{0.55em}
+{\small\emph{Cuadro sinóptico.} Los conceptos centrales del curso reaparecen una y otra vez cuando los problemas reales se organizan como datos, restricciones y relaciones entre variables.}
+\end{center}
+
+\begin{summaryBox}
+\textbf{Mensaje final de esta sección.} Estudiar álgebra lineal no solo sirve para resolver ejercicios con matrices. Sirve para aprender a pensar con estructura en problemas modernos: cómo organizar información, cómo reducir complejidad, cómo detectar relaciones ocultas y cómo transformar datos en decisiones.
+\end{summaryBox}
+
+\section{Introducción y filosofía estructural}
+\begin{ideaBox}
+El curso puede resumirse así: un espacio vectorial organiza vectores; una base permite coordinatizarlos; una transformación lineal describe cómo se deforman; y los invariantes lineales dicen qué permanece esencialmente igual bajo cambio de base. Esta visión evita pensar que el álgebra lineal es una colección de algoritmos sueltos.
+\end{ideaBox}
+El álgebra lineal es, al mismo tiempo, la teoría más elemental y una de las teorías más estructurales de las matemáticas. Su idea central es simple: estudiar conjuntos en los que la combinación lineal de objetos tiene sentido. Desde este punto de vista, un espacio vectorial es una arena algebraica en la que pueden sumarse vectores y multiplicarse por escalares; una aplicación lineal es un morfismo que respeta exactamente esta estructura.
+
+Lo esencial en esta teoría es distinguir entre lo \emph{intrínseco} y lo \emph{coordinado}. Una matriz depende de una elección de bases; en cambio, el núcleo, la imagen, el rango, el trazo, el determinante y el espectro son objetos intrínsecos. En estas notas insistiremos repetidamente en esta separación conceptual.
+
+Trabajaremos principalmente con espacios vectoriales de dimensión finita sobre un campo \(\K\), aunque señalaremos en algunos puntos dónde los argumentos siguen siendo válidos sin esta hipótesis.
+
+\section{Espacios vectoriales y subespacios}
+\begin{summaryBox}
+En esta sección se fijan las reglas del juego. Un subespacio debe ser cerrado bajo las operaciones lineales porque queremos que herede íntegramente la estructura del espacio ambiente. En geometría elemental, los ejemplos prototípicos son líneas y planos que pasan por el origen.
+\end{summaryBox}
+\begin{definition}
+Un \emph{espacio vectorial} sobre un campo \(\K\) es un conjunto \(V\) dotado de una ley de suma
+\[
+V\times V\to V,\qquad (x,y)\mapsto x+y,
+\]
+y de una ley de multiplicación por escalares
+\[
+\K\times V\to V,\qquad (\lambda,x)\mapsto \lambda x,
+\]
+que satisfacen las axiomas usuales: asociatividad y conmutatividad de la suma, existencia de vector cero, existencia de opuestos, compatibilidad del producto por escalares con el producto en \(\K\), y distributividad respecto de la suma en \(V\) y en \(\K\).
+\end{definition}
+
+\begin{definition}
+Sea \(V\) un espacio vectorial. Un subconjunto \(W\subseteq V\) es un \emph{subespacio vectorial} si para cualesquiera \(x,y\in W\) y \(\lambda\in\K\), se tiene
+\[
+x+y\in W,\qquad \lambda x\in W.
+\]
+Equivalente y conceptualmente: \(W\) es un subespacio si es estable bajo combinaciones lineales finitas.
+\end{definition}
+
+\begin{example}[Subespacios elementales]
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item En \(\R^3\), el conjunto
+\[
+W=\set{(x,y,z)\in\R^3: x+2y-z=0}
+\]
+es un subespacio, pues es el conjunto de soluciones de una ecuación lineal homogénea.
+\item El conjunto
+\[
+A=\set{(x,y,z)\in\R^3: x+2y-z=1}
+\]
+no es un subespacio, ya que no contiene al vector cero.
+\item El conjunto de polinomios de grado \emph{a lo más} \(n\), denotado \(\K_n[X]\), es un subespacio del espacio \(\K[X]\) de todos los polinomios.
+\end{enumerate}
+\end{example}
+
+\begin{intuitionBox}
+La ecuación homogénea \(x+2y-z=0\) describe un plano que pasa por el origen. El hecho de pasar por el origen no es un accidente: es precisamente la huella geométrica de la homogeneidad lineal. En cambio, la ecuación afín \(x+2y-z=1\) produce un plano paralelo desplazado, y ese corrimiento destruye la estabilidad bajo multiplicación por escalares.
+\end{intuitionBox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+  % axes
+  \draw[-{Latex[length=2.5mm]}] (-0.3,0) -- (4.3,0) node[right] {$x$};
+  \draw[-{Latex[length=2.5mm]}] (0,-0.3) -- (0,3.7) node[above] {$y$};
+  \draw[-{Latex[length=2.5mm]}] (-1.4,-1.1) -- (1.4,1.1) node[above right] {$z$};
+  % plane through origin
+  \filldraw[fill=blue!10,draw=ihesblue,opacity=0.85] (0.2,0.2) -- (3.3,0.6) -- (2.2,2.8) -- (-0.8,2.4) -- cycle;
+  \node[ihesblue] at (2.6,2.15) {$x+2y-z=0$};
+  \fill (0,0) circle (1.3pt) node[below left] {$0$};
+\end{tikzpicture}
+
+{\small Figura guía: un subespacio lineal en \(\R^3\) pasa por el origen.}
+\end{center}
+
+\begin{proposition}
+La intersección arbitraria de subespacios de un espacio vectorial \(V\) es un subespacio.
+\end{proposition}
+
+\begin{proof}
+Sea \((W_i)_{i\in I}\) una familia de subespacios de \(V\), y sea
+\[
+W=\bigcap_{i\in I} W_i.
+\]
+Como \(0\in W_i\) para todo \(i\), se tiene \(0\in W\). Si \(x,y\in W\), entonces \(x,y\in W_i\) para todo \(i\), de donde \(x+y\in W_i\) para todo \(i\), así que \(x+y\in W\). Si \(\lambda\in\K\) y \(x\in W\), entonces \(x\in W_i\) para todo \(i\), luego \(\lambda x\in W_i\) para todo \(i\), y por tanto \(\lambda x\in W\). \end{proof}
+
+\section{Combinaciones lineales, span e independencia lineal}
+\begin{ideaBox}
+El \emph{span} mide qué puede construirse a partir de una familia de vectores. La independencia lineal mide si esa construcción tiene redundancias. La tensión entre ambas nociones es la base del concepto de \emph{base}.
+\end{ideaBox}
+\begin{definition}
+Si \(v_1,\dots,v_r\in V\), el \emph{span} o \emph{subespacio generado} por ellos es
+\[
+\Span(v_1,\dots,v_r)=\set{a_1v_1+\cdots+a_rv_r: a_i\in\K}.
+\]
+Es el menor subespacio de \(V\) que contiene a \(v_1,\dots,v_r\).
+\end{definition}
+
+\begin{definition}
+Una familia \((v_i)_{i\in I}\) de vectores es \emph{linealmente independiente} si toda relación lineal finita
+\[
+a_1v_{i_1}+\cdots+a_rv_{i_r}=0
+\]
+implica \(a_1=\cdots=a_r=0\).
+\end{definition}
+
+\begin{definition}
+Una familia \((v_i)_{i\in I}\) \emph{genera} \(V\) si su span es todo \(V\).
+Una \emph{base} es una familia a la vez generadora y linealmente independiente.
+\end{definition}
+
+\begin{example}[Dependencia e independencia en \(\R^3\)]
+Consideremos los vectores
+\[
+v_1=(1,0,1),\qquad v_2=(0,1,1),\qquad v_3=(1,1,2).
+\]
+Se observa inmediatamente que
+\[
+v_3=v_1+v_2.
+\]
+Luego la familia \((v_1,v_2,v_3)\) es linealmente dependiente.
+
+En cambio, los vectores
+\[
+e_1=(1,0,0),\qquad e_2=(0,1,0),\qquad e_3=(0,0,1)
+\]
+son linealmente independientes, porque si
+\[
+ae_1+be_2+ce_3=(0,0,0),
+\]
+entonces necesariamente \(a=b=c=0\).
+\end{example}
+
+\begin{intuitionBox}
+En \(\R^2\), dos vectores no colineales generan el plano; si uno cae sobre la misma recta del otro, aparece dependencia. El lenguaje de span e independencia formaliza exactamente esta intuición geométrica de ``direcciones nuevas'' frente a ``direcciones repetidas''.
+\end{intuitionBox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+  \draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};
+  \draw[->] (0,-0.2) -- (0,3.1) node[above] {$y$};
+  \draw[ihesblue,thick,->] (0,0) -- (3,1.9) node[above] {$v_1$};
+  \draw[teal!70!black,thick,->] (0,0) -- (1.5,2.4) node[left] {$v_2$};
+  \fill[blue!8] (0,0) -- (3,1.9) -- (4.5,4.3) -- (1.5,2.4) -- cycle;
+  \draw[red!70!black,thick,->] (0,0) -- (1.5,0.95) node[below right] {$v_3=\frac12v_1$};
+\end{tikzpicture}
+
+{\small Dos direcciones nuevas generan un plano; una tercera sobre la misma recta no añade dimensión.}
+\end{center}
+
+\begin{proposition}
+Sea \(v_1,\dots,v_n\in V\). La familia \((v_1,\dots,v_n)\) es linealmente dependiente si y solo si alguno de los vectores pertenece al span de los anteriores.
+\end{proposition}
+
+\begin{proof}
+Supongamos que la familia es dependiente. Entonces existe una relación no trivial
+\[
+a_1v_1+\cdots+a_nv_n=0.
+\]
+Sea \(j\) el mayor índice tal que \(a_j\neq 0\). Entonces
+\[
+v_j=-a_j^{-1}(a_1v_1+\cdots+a_{j-1}v_{j-1}),
+\]
+de modo que \(v_j\in\Span(v_1,\dots,v_{j-1})\).
+
+Recíprocamente, si \(v_j\in\Span(v_1,\dots,v_{j-1})\), existe una relación
+\[
+v_j-b_1v_1-\cdots-b_{j-1}v_{j-1}=0
+\]
+no trivial, por lo que la familia es dependiente. \end{proof}
+
+\section{Bases, dimensión y el lema de intercambio}
+\begin{methodBox}
+Siempre que aparezca una familia de vectores, conviene preguntarse dos cosas: si genera y si es independiente. El lema de intercambio explica por qué no pueden coexistir ``demasiados'' vectores independientes dentro de un espacio generado por pocos vectores, y por eso es el motor de la noción de dimensión.
+\end{methodBox}
+La existencia de bases y la unicidad del número de elementos de una base en dimensión finita forman el corazón estructural del álgebra lineal.
+
+\begin{lemma}[Lema de intercambio de Steinitz]
+Sea \(V\) un espacio vectorial generado por \(v_1,\dots,v_n\). Sea \(w_1,\dots,w_r\) una familia linealmente independiente en \(V\). Entonces \(r\le n\). Más aún, es posible reemplazar \(r\) de los vectores \(v_i\) por \(w_1,\dots,w_r\) y conservar una familia generadora de \(V\).
+\end{lemma}
+
+\begin{proof}
+Procedemos por inducción sobre \(r\). Para \(r=1\), escribimos
+\[
+w_1=a_1v_1+\cdots+a_nv_n.
+\]
+Como \(w_1\neq 0\), algún \(a_j\) es no nulo; despejando \(v_j\), se ve que la familia obtenida al sustituir \(v_j\) por \(w_1\) sigue generando \(V\).
+
+Supuesto el resultado para \(r-1\), reemplazamos apropiadamente \(r-1\) de los \(v_i\) por \(w_1,\dots,w_{r-1}\), de modo que la familia resultante siga generando \(V\). Aplicando el caso \(r=1\) a \(w_r\), que no pertenece al span de \(w_1,\dots,w_{r-1}\) por independencia lineal, obtenemos un nuevo reemplazo. Tras \(r\) pasos, se concluye que \(r\le n\) y que puede realizarse el intercambio deseado. \end{proof}
+
+\begin{theorem}
+Toda familia generadora finita contiene una base. Toda familia linealmente independiente finita puede extenderse a una base.
+\end{theorem}
+
+\begin{proof}
+Sea \(v_1,\dots,v_n\) una familia generadora. Si es independiente, ya es base. Si es dependiente, por la proposición anterior algún vector es combinación lineal de los demás; eliminándolo, el span no cambia. Repitiendo finitamente, se obtiene una familia generadora independiente, que es una base.
+
+Para la segunda afirmación, sea \(w_1,\dots,w_r\) una familia independiente en un espacio \(V\) de dimensión finita. Si no genera \(V\), escogemos \(w_{r+1}\notin \Span(w_1,\dots,w_r)\). Entonces \(w_1,\dots,w_{r+1}\) sigue siendo independiente. Repitiendo el proceso, y usando finitud de la dimensión, se alcanza una base. \end{proof}
+
+\begin{theorem}[Invariancia de la dimensión]
+Si \(V\) es un espacio vectorial de dimensión finita, cualesquiera dos bases de \(V\) tienen el mismo número de elementos.
+\end{theorem}
+
+\begin{proof}
+Sean \((e_1,\dots,e_n)\) y \((f_1,\dots,f_m)\) bases de \(V\). Como \((f_1,\dots,f_m)\) es independiente y \((e_1,\dots,e_n)\) genera, el lema de intercambio da \(m\le n\). Invirtiendo los papeles, \(n\le m\). Por tanto \(n=m\). \end{proof}
+
+\begin{definition}
+El número común de elementos de cualquier base de \(V\) se llama la \emph{dimensión} de \(V\) y se denota por \(\dim V\).
+\end{definition}
+
+\begin{example}[Dimensión del espacio de polinomios de grado a lo más $n$]
+El espacio de polinomios de grado a lo más \(n\) tiene base
+\[
+1,X,X^2,\dots,X^n,
+\]
+por lo que
+\[
+\dim \K_n[X]=n+1.
+\]
+Cada polinomio \(p(X)=a_0+a_1X+\cdots+a_nX^n\) se escribe de manera única como combinación lineal de esos elementos.
+\end{example}
+
+\section{Suma, suma directa y cocientes}
+\begin{ideaBox}
+La suma de subespacios expresa cómo combinamos direcciones; la suma directa añade la condición de unicidad; el cociente identifica vectores que difieren por una dirección ``despreciable''. Estas tres operaciones aparecen una y otra vez en álgebra, geometría y análisis.
+\end{ideaBox}
+\begin{definition}
+Si \(U,W\subseteq V\) son subespacios, su \emph{suma} es
+\[
+U+W=\set{u+w: u\in U,\ w\in W}.
+\]
+Es un subespacio de \(V\).
+\end{definition}
+
+\begin{proposition}
+Para subespacios \(U,W\subseteq V\) de dimensión finita,
+\[
+\dim(U+W)=\dim U+\dim W-\dim(U\cap W).
+\]
+\end{proposition}
+
+\begin{proof}
+Sea \(u_1,\dots,u_r\) una base de \(U\cap W\). Extiéndase a una base de \(U\):
+\[
+u_1,\dots,u_r,u_{r+1},\dots,u_m,
+\]
+y a una base de \(W\):
+\[
+u_1,\dots,u_r,w_{r+1},\dots,w_n.
+\]
+Afirmamos que
+\[
+u_1,\dots,u_r,u_{r+1},\dots,u_m,w_{r+1},\dots,w_n
+\]
+es una base de \(U+W\). La propiedad generadora es evidente. Para la independencia lineal, si
+\[
+\sum_{i=1}^r a_i u_i+\sum_{i=r+1}^m a_i u_i+\sum_{j=r+1}^n b_j w_j=0,
+\]
+entonces
+\[
+\sum_{j=r+1}^n b_j w_j=-\sum_{i=1}^r a_i u_i-\sum_{i=r+1}^m a_i u_i\in U.
+\]
+Pero el miembro izquierdo pertenece a \(W\), luego pertenece a \(U\cap W\). Como \(w_{r+1},\dots,w_n\) fueron escogidos para complementar una base de \(U\cap W\) en \(W\), se concluye \(b_j=0\) para todo \(j\). Después, también \(a_i=0\) para todo \(i\). Así,
+\[
+\dim(U+W)=r+(m-r)+(n-r)=m+n-r=\dim U+\dim W-\dim(U\cap W).
+\]
+\end{proof}
+
+\begin{definition}
+Decimos que \(V\) es la \emph{suma directa} de \(U\) y \(W\), y escribimos
+\[
+V=U\oplus W,
+\]
+si todo vector \(v\in V\) se escribe de forma única como \(v=u+w\) con \(u\in U\), \(w\in W\).
+\end{definition}
+
+\begin{proposition}
+Son equivalentes:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \(V=U\oplus W\).
+\item \(V=U+W\) y \(U\cap W=\{0\}\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Si la descomposición es única, entonces \(V=U+W\). Si \(x\in U\cap W\), se tiene
+\[
+x=x+0=0+x,
+\]
+y por unicidad, \(x=0\), así que \(U\cap W=\{0\}\).
+
+Recíprocamente, si \(V=U+W\) y \(U\cap W=\{0\}\), supongamos
+\[
+v=u_1+w_1=u_2+w_2.
+\]
+Entonces
+\[
+u_1-u_2=w_2-w_1.
+\]
+El miembro izquierdo pertenece a \(U\), el derecho a \(W\), luego ambos están en \(U\cap W=\{0\}\). Así, \(u_1=u_2\) y \(w_1=w_2\). \end{proof}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+  \filldraw[fill=blue!8,draw=ihesblue] (-2.5,-0.2) -- (2.5,0.4) -- (1.8,2.8) -- (-3.2,2.2) -- cycle;
+  \draw[ihesblue,thick] (-2.4,0.55) -- (2.3,1.1) node[right] {$U$};
+  \draw[teal!70!black,thick] (-0.2,-0.1) -- (-0.9,2.7) node[above] {$W$};
+  \fill (0.28,0.86) circle (1.4pt) node[right] {$0$};
+  \draw[->,very thick,red!70!black] (0.28,0.86) -- (1.6,1.0) node[below] {$u$};
+  \draw[->,very thick,orange!80!black] (0.28,0.86) -- (-0.12,2.0) node[left] {$w$};
+  \draw[->,very thick,black] (0.28,0.86) -- (1.2,2.16) node[above] {$u+w$};
+\end{tikzpicture}
+
+{\small Visualización de una suma directa: cada vector se descompone de manera única como suma de una componente en \(U\) y otra en \(W\).}
+\end{center}
+
+\begin{definition}
+Sea \(W\subseteq V\) un subespacio. El \emph{cociente} \(V/W\) es el conjunto de clases laterales
+\[
+v+W=\set{v+w: w\in W}.
+\]
+La suma y la multiplicación por escalares se definen por
+\[
+(v+W)+(v'+W)=(v+v')+W,
+\qquad
+\lambda(v+W)=(\lambda v)+W.
+\]
+\end{definition}
+
+\begin{proposition}
+Si \(V\) es de dimensión finita y \(W\subseteq V\) es un subespacio, entonces
+\[
+\dim(V/W)=\dim V-\dim W.
+\]
+\end{proposition}
+
+\begin{proof}
+Sea \(w_1,\dots,w_r\) una base de \(W\), extendida a una base de \(V\):
+\[
+w_1,\dots,w_r,v_{r+1},\dots,v_n.
+\]
+Afirmamos que las clases \(v_{r+1}+W,\dots,v_n+W\) forman una base de \(V/W\). Que generan es inmediato, pues todo vector de \(V\) es combinación de la base elegida. Si
+\[
+a_{r+1}(v_{r+1}+W)+\cdots+a_n(v_n+W)=W,
+\]
+entonces
+\[
+a_{r+1}v_{r+1}+\cdots+a_n v_n\in W,
+\]
+lo cual, por independencia lineal de la base total, implica \(a_{r+1}=\cdots=a_n=0\). Luego son independientes y
+\[
+\dim(V/W)=n-r=\dim V-\dim W.
+\]
+\end{proof}
+
+\section{Transformaciones lineales}
+\begin{summaryBox}
+Una transformación lineal se entiende bien si se conocen tres cosas: qué vectores anula, qué vectores produce y cómo actúa sobre una base. Núcleo, imagen y matriz son tres miradas complementarias del mismo objeto.
+\end{summaryBox}
+\begin{definition}
+Sean \(V\) y \(W\) espacios vectoriales sobre \(\K\). Una aplicación \(T:V\to W\) es \emph{lineal} si para todos \(x,y\in V\) y todo \(\lambda\in\K\),
+\[
+T(x+y)=T(x)+T(y),
+\qquad
+T(\lambda x)=\lambda T(x).
+\]
+\end{definition}
+
+La linealidad significa exactamente que \(T\) preserva combinaciones lineales finitas:
+\[
+T(a_1v_1+\cdots+a_rv_r)=a_1T(v_1)+\cdots+a_rT(v_r).
+\]
+
+\begin{definition}
+Para una aplicación lineal \(T:V\to W\), definimos el \emph{núcleo} y la \emph{imagen} por
+\[
+\Ker(T)=\set{v\in V:T(v)=0},
+\qquad
+\Ima(T)=\set{T(v):v\in V}.
+\]
+\end{definition}
+
+\begin{proposition}
+El núcleo y la imagen de una aplicación lineal son subespacios.
+\end{proposition}
+
+\begin{proof}
+Si \(x,y\in\Ker(T)\), entonces
+\[
+T(x+y)=T(x)+T(y)=0+0=0,
+\]
+y para \(\lambda\in\K\),
+\[
+T(\lambda x)=\lambda T(x)=0.
+\]
+Por tanto \(\Ker(T)\) es subespacio. Para la imagen, si \(u=T(x)\) y \(v=T(y)\), entonces
+\[
+u+v=T(x)+T(y)=T(x+y),
+\]
+y si \(\lambda\in\K\),
+\[
+\lambda u=\lambda T(x)=T(\lambda x),
+\]
+de modo que \(\Ima(T)\) también es subespacio. \end{proof}
+
+\begin{example}[Una transformación lineal concreta]
+Sea \(T:\R^3\to\R^2\) dada por
+\[
+T(x,y,z)=(x-y,\,2x+z).
+\]
+Entonces \(T\) es lineal. Calculemos su núcleo:
+\[
+T(x,y,z)=(0,0)
+\iff
+x-y=0,\quad 2x+z=0.
+\]
+De aquí,
+\[
+y=x,\qquad z=-2x,
+\]
+y por tanto
+\[
+\Ker(T)=\set{(t,t,-2t): t\in\R}=\Span\bigl((1,1,-2)\bigr).
+\]
+Así, \(\dim\Ker(T)=1\).
+
+La imagen se obtiene observando que
+\[
+T(1,0,0)=(1,2),\qquad T(0,1,0)=(-1,0),\qquad T(0,0,1)=(0,1).
+\]
+Puesto que \((1,2)\) y \((-1,0)\) son linealmente independientes, \(\Ima(T)=\R^2\), de modo que \(\dim\Ima(T)=2\).
+\end{example}
+
+\section{Teorema rango--nulidad y primer teorema de isomorfismo}
+\begin{ideaBox}
+Aquí aparece uno de los mensajes más profundos del curso: la dimensión del dominio se reparte entre las direcciones que desaparecen y las direcciones que sobreviven. El primer teorema de isomorfismo refina esa intuición al identificar exactamente el cociente por el núcleo con la imagen.
+\end{ideaBox}
+\begin{theorem}[Rango--nulidad]
+Sea \(T:V\to W\) una aplicación lineal, con \(V\) de dimensión finita. Entonces
+\[
+\dim V=\dim\Ker(T)+\dim\Ima(T).
+\]
+\end{theorem}
+
+\begin{intuitionBox}
+El teorema rango--nulidad puede leerse como una ley de conservación de dimensión. Toda dimensión del dominio termina o bien absorbida por el núcleo, o bien manifestándose en la imagen. No hay ninguna otra posibilidad.
+\end{intuitionBox}
+
+\begin{proof}
+Sea \(k_1,\dots,k_r\) una base de \(\Ker(T)\), y extiéndase a una base de \(V\):
+\[
+k_1,\dots,k_r,v_{r+1},\dots,v_n.
+\]
+Afirmamos que
+\[
+T(v_{r+1}),\dots,T(v_n)
+\]
+forman una base de \(\Ima(T)\). Para ver que generan, sea \(y\in\Ima(T)\); entonces \(y=T(v)\) para algún
+\[
+v=a_1k_1+\cdots+a_rk_r+a_{r+1}v_{r+1}+\cdots+a_n v_n.
+\]
+Por linealidad y porque \(T(k_i)=0\),
+\[
+y=T(v)=a_{r+1}T(v_{r+1})+\cdots+a_n T(v_n).
+\]
+Para la independencia lineal, si
+\[
+a_{r+1}T(v_{r+1})+\cdots+a_n T(v_n)=0,
+\]
+entonces
+\[
+T(a_{r+1}v_{r+1}+\cdots+a_n v_n)=0,
+\]
+por lo que
+\[
+a_{r+1}v_{r+1}+\cdots+a_n v_n\in\Ker(T)=\Span(k_1,\dots,k_r).
+\]
+La independencia lineal de la base total de \(V\) obliga a \(a_{r+1}=\cdots=a_n=0\). Concluimos que
+\[
+\dim\Ima(T)=n-r,
+\]
+es decir,
+\[
+\dim V=n=r+(n-r)=\dim\Ker(T)+\dim\Ima(T).
+\]
+\end{proof}
+
+\begin{theorem}[Primer teorema de isomorfismo]
+Sea \(T:V\to W\) lineal. Entonces existe un isomorfismo natural
+\[
+\overline{T}:V/\Ker(T)\xrightarrow{\sim}\Ima(T),
+\qquad
+\overline{T}(v+\Ker(T))=T(v).
+\]
+\end{theorem}
+
+\begin{proof}
+Debemos mostrar primero que la aplicación está bien definida. Si
+\[
+v+\Ker(T)=v'+\Ker(T),
+\]
+entonces \(v-v'\in\Ker(T)\), es decir, \(T(v-v')=0\), y por tanto \(T(v)=T(v')\). La linealidad es inmediata.
+
+Es sobreyectiva por definición de la imagen. Es inyectiva porque
+\[
+\overline{T}(v+\Ker(T))=0
+\iff
+T(v)=0
+\iff
+v\in\Ker(T)
+\iff
+v+\Ker(T)=\Ker(T).
+\]
+Luego \(\overline{T}\) es un isomorfismo. \end{proof}
+
+\begin{center}
+\begin{tikzcd}[column sep=large,row sep=large]
+V \arrow[r,"T"] \arrow[d,"\pi"'] & \Ima(T) \\
+V/\Ker(T) \arrow[ur,"\overline{T}"'] &
+\end{tikzcd}
+\end{center}
+
+\begin{intuitionBox}
+El diagrama anterior resume la situación completa: primero se colapsan todas las direcciones que \(T\) no distingue, es decir, las del núcleo; después, el operador resultante ya es fiel y describe exactamente la imagen. Esta es una de las primeras manifestaciones del principio universal ``modulo el núcleo, una aplicación se vuelve inyectiva''.
+\end{intuitionBox}
+
+\begin{example}[Aplicación del teorema de isomorfismo]
+Para la transformación del ejemplo anterior,
+\[
+T:\R^3\to\R^2,
+\qquad
+T(x,y,z)=(x-y,2x+z),
+\]
+tenemos
+\[
+\R^3/\Span((1,1,-2))\cong\R^2.
+\]
+No se trata solo de una igualdad de dimensiones, sino de una identificación estructural: el espacio cociente por las direcciones ``invisibles'' para \(T\) se convierte exactamente en la imagen efectiva de la transformación.
+\end{example}
+
+\section{Matrices y cambio de base}
+\begin{warningBox}
+Una matriz no es la transformación lineal; es su escritura en coordenadas. Cambiar de base cambia la matriz, pero no cambia la transformación. Toda vez que aparezca una fórmula matricial, hay que preguntarse cuál es su significado intrínseco.
+\end{warningBox}
+Elegidas bases en el dominio y en el codominio, toda transformación lineal se representa mediante una matriz.
+
+\begin{definition}
+Sean \(V\) y \(W\) espacios vectoriales de dimensiones finitas \(n\) y \(m\), respectivamente. Sea \(\mathcal{B}=(e_1,\dots,e_n)\) una base de \(V\), y \(\mathcal{C}=(f_1,\dots,f_m)\) una base de \(W\). La \emph{matriz de \(T:V\to W\) respecto de \(\mathcal{B}\) y \(\mathcal{C}\)} es la matriz \([T]_{\mathcal{C}\leftarrow \mathcal{B}}\in \Mat_{m\times n}(\K)\) cuyas columnas son las coordenadas de \(T(e_j)\) en la base \(\mathcal{C}\).
+\end{definition}
+
+Es decir, si
+\[
+T(e_j)=a_{1j}f_1+\cdots+a_{mj}f_m,
+\]
+entonces
+\[
+[T]_{\mathcal{C}\leftarrow \mathcal{B}}=(a_{ij})_{1\le i\le m,\ 1\le j\le n}.
+\]
+
+\begin{proposition}
+Si \(S:U\to V\) y \(T:V\to W\) son lineales, entonces la matriz de la composición satisface
+\[
+[T\circ S]=[T]\,[S],
+\]
+siempre que las bases elegidas sean compatibles.
+\end{proposition}
+
+\begin{proof}
+La columna \(j\)-ésima de \([S]\) contiene las coordenadas de \(S(u_j)\) en la base de \(V\). Al aplicar \(T\), las coordenadas resultantes se obtienen multiplicando por \([T]\). La compatibilidad columna por columna produce la fórmula matricial usual. \end{proof}
+
+\begin{proposition}[Cambio de base]
+Sea \(T:V\to V\), y sean \(\mathcal{B}\), \(\mathcal{B}'\) dos bases de \(V\). Si \(P\) es la matriz de cambio de base de \(\mathcal{B}'\) a \(\mathcal{B}\), entonces
+\[
+[T]_{\mathcal{B}'}=P^{-1}[T]_{\mathcal{B}}P.
+\]
+\end{proposition}
+
+\begin{proof}
+Si \([v]_{\mathcal{B}}=P[v]_{\mathcal{B}'}\), entonces
+\[
+[T(v)]_{\mathcal{B}}=[T]_{\mathcal{B}}[v]_{\mathcal{B}}=[T]_{\mathcal{B}}P[v]_{\mathcal{B}'},
+\]
+mientras que también
+\[
+[T(v)]_{\mathcal{B}}=P[T(v)]_{\mathcal{B}'}. 
+\]
+Por tanto,
+\[
+P[T(v)]_{\mathcal{B}'}=[T]_{\mathcal{B}}P[v]_{\mathcal{B}'},
+\]
+y como esto vale para todo \(v\), se concluye
+\[
+[T]_{\mathcal{B}'}=P^{-1}[T]_{\mathcal{B}}P.
+\]
+\end{proof}
+
+\begin{center}
+\begin{tikzcd}[column sep=large,row sep=large]
+{\K^n_{\mathcal{B}^{\prime}}} \arrow[r,"{[T]_{\mathcal{B}^{\prime}}}"] \arrow[d,"P"'] & {\K^n_{\mathcal{B}^{\prime}}} \arrow[d,"P"] \\
+{\K^n_{\mathcal{B}}} \arrow[r,"{[T]_{\mathcal{B}}}"'] & {\K^n_{\mathcal{B}}}
+\end{tikzcd}
+\end{center}
+
+\begin{intuitionBox}
+La semejanza expresa que cambiar de base no altera el operador, sino solo el sistema de coordenadas con el que lo observamos. En lenguaje geométrico, la información esencial del operador permanece intacta mientras que la rejilla con la que lo dibujamos cambia.
+\end{intuitionBox}
+
+\begin{remark}
+La relación anterior es la relación de \emph{semejanza} entre matrices. Las matrices semejantes representan el mismo operador lineal en distintas coordenadas. Por ello, toda propiedad verdaderamente lineal debe ser invariante bajo semejanza.
+\end{remark}
+
+\begin{example}[Cálculo explícito de matriz]
+Sea \(T:\R^2\to\R^2\) dada por
+\[
+T(x,y)=(3x+y,\,x+2y).
+\]
+Respecto de la base canónica \(\mathcal{E}=(e_1,e_2)\), tenemos
+\[
+T(e_1)=(3,1),\qquad T(e_2)=(1,2),
+\]
+y por tanto
+\[
+[T]_{\mathcal{E}}=
+\begin{pmatrix}
+3 & 1\\
+1 & 2
+\end{pmatrix}.
+\]
+Si ahora tomamos la base
+\[
+\mathcal{B}'=((1,1),(1,-1)),
+\]
+la matriz de cambio de base a la canónica es
+\[
+P=
+\begin{pmatrix}
+1 & 1\\
+1 & -1
+\end{pmatrix}.
+\]
+Entonces
+\[
+[T]_{\mathcal{B}'}=P^{-1}[T]_{\mathcal{E}}P.
+\]
+Como
+\[
+P^{-1}=\frac12
+\begin{pmatrix}
+1 & 1\\
+1 & -1
+\end{pmatrix},
+\]
+se obtiene
+\[
+[T]_{\mathcal{B}'}=
+\frac12
+\begin{pmatrix}
+1 & 1\\
+1 & -1
+\end{pmatrix}
+\begin{pmatrix}
+3 & 1\\
+1 & 2
+\end{pmatrix}
+\begin{pmatrix}
+1 & 1\\
+1 & -1
+\end{pmatrix}
+=
+\begin{pmatrix}
+\frac72 & \frac12\\
+\frac12 & \frac32
+\end{pmatrix}.
+\]
+La transformación es la misma; solo ha cambiado su expresión matricial.
+\end{example}
+
+\section{Dualidad}
+\begin{ideaBox}
+El dual permite convertir vectores en funcionales y aplicaciones lineales en aplicaciones sobre funcionales. Esta ``inversión de flechas'' es el primer ejemplo serio de functorialidad que suele encontrar un estudiante de álgebra.
+\end{ideaBox}
+\begin{definition}
+Sea \(V\) un espacio vectorial sobre \(\K\). Su \emph{espacio dual} es
+\[
+V^*=\Hom(V,\K),
+\]
+el espacio vectorial de todas las formas lineales sobre \(V\).
+\end{definition}
+
+\begin{definition}
+Si \((e_1,\dots,e_n)\) es una base de \(V\), la \emph{base dual} \((e^1,\dots,e^n)\) de \(V^*\) está dada por
+\[
+e^i(e_j)=\delta_{ij}.
+\]
+\end{definition}
+
+\begin{proposition}
+Si \(\dim V=n\), entonces \(\dim V^*=n\). Más aún, la base dual asociada a una base de \(V\) es efectivamente una base de \(V^*\).
+\end{proposition}
+
+\begin{proof}
+Sea \((e_1,\dots,e_n)\) una base de \(V\). Dada cualquier forma lineal \(\varphi\in V^*\), se tiene
+\[
+\varphi\!\left(\sum_{j=1}^n a_j e_j\right)=\sum_{j=1}^n a_j \varphi(e_j).
+\]
+Así,
+\[
+\varphi=\sum_{j=1}^n \varphi(e_j)e^j.
+\]
+Esto muestra que \((e^1,\dots,e^n)\) genera \(V^*\). La independencia lineal es inmediata al evaluar una combinación lineal en cada \(e_j\). \end{proof}
+
+\begin{definition}
+Si \(T:V\to W\) es lineal, su \emph{aplicación dual} o \emph{transpuesta abstracta} es
+\[
+T^*:W^*\to V^*,
+\qquad
+T^*(\varphi)=\varphi\circ T.
+\]
+\end{definition}
+
+\begin{center}
+\begin{tikzcd}[column sep=huge,row sep=large]
+W^* \arrow[r,"T^*"] & V^* \\
+\varphi \arrow[r,mapsto] & \varphi\circ T
+\end{tikzcd}
+\end{center}
+
+\begin{intuitionBox}
+La dualidad invierte las flechas: una transformación \(T:V\to W\) induce una transformación en sentido contrario sobre funcionales. Esto es natural porque un funcional sobre \(W\) puede evaluarse en la imagen de un vector de \(V\), produciendo así un funcional sobre \(V\).
+\end{intuitionBox}
+
+\begin{remark}
+En bases duales, la matriz de \(T^*\) es la traspuesta de la matriz de \(T\). Esta es la razón estructural de la operación de transposición matricial.
+\end{remark}
+
+\begin{example}[Formas lineales y base dual]
+En \(\R^3\), con base canónica \((e_1,e_2,e_3)\), toda forma lineal es de la forma
+\[
+\varphi(x,y,z)=ax+by+cz.
+\]
+Entonces
+\[
+\varphi=a e^1+b e^2+c e^3,
+\]
+donde \(e^1(x,y,z)=x\), \(e^2(x,y,z)=y\), \(e^3(x,y,z)=z\).
+\end{example}
+
+\section{Determinantes}
+\begin{summaryBox}
+El determinante mide, simultáneamente, un fenómeno algebraico y uno geométrico: algebraicamente detecta invertibilidad; geométricamente registra el factor de escala orientado del volumen. Es importante ver ambas lecturas a la vez.
+\end{summaryBox}
+El determinante puede introducirse de varias formas. Conceptualmente, es la forma multilineal alternante normalizada por \(\det(I_n)=1\).
+
+\begin{definition}
+El \emph{determinante} es la única aplicación
+\[
+\det:\Mat_n(\K)\to\K
+\]
+que satisface:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item es multilineal en las filas;
+\item es alternante (si dos filas coinciden, el determinante es cero);
+\item \(\det(I_n)=1\).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Fórmula de Leibniz]
+Para \(A=(a_{ij})\in\Mat_n(\K)\),
+\[
+\det(A)=\sum_{\sigma\in S_n}\mathrm{sgn}(\sigma)
+\,a_{1\sigma(1)}\cdots a_{n\sigma(n)}.
+\]
+\end{theorem}
+
+\begin{intuitionBox}
+La suma sobre permutaciones codifica todas las maneras posibles de escoger una entrada por fila y por columna. El signo \(\mathrm{sgn}(\sigma)\) corrige la orientación: permutaciones pares conservan orientación y permutaciones impares la invierten. Esa es la razón profunda por la que el determinante sabe detectar cambios de volumen orientado.
+\end{intuitionBox}
+
+\begin{remark}
+Aunque esta fórmula es explícita, no siempre es el modo más conceptual ni más eficiente de calcular determinantes. Las operaciones elementales y las descomposiciones triangulares suelen ser superiores para el cálculo efectivo.
+\end{remark}
+
+\begin{proposition}
+Para matrices cuadradas \(A,B\in\Mat_n(\K)\), se tiene
+\[
+\det(AB)=\det(A)\det(B).
+\]
+En particular, \(A\) es invertible si y solo si \(\det(A)\neq 0\).
+\end{proposition}
+
+\begin{proof}
+La función \(B\mapsto \det(AB)\) es multilineal alternante en las filas de \(B\). Por unicidad de la caracterización del determinante, debe ser un múltiplo escalar de \(\det(B)\). Evaluando en \(B=I_n\), el múltiplo resulta ser \(\det(A)\). Así,
+\[
+\det(AB)=\det(A)\det(B).
+\]
+Si \(A\) es invertible, entonces
+\[
+1=\det(I_n)=\det(A)\det(A^{-1}),
+\]
+luego \(\det(A)\neq 0\). Recíprocamente, si \(\det(A)\neq 0\), las filas de \(A\) son linealmente independientes, y por tanto \(A\) es invertible. \end{proof}
+
+\begin{example}[Un determinante por eliminación]
+Consideremos
+\[
+A=
+\begin{pmatrix}
+1 & 2 & 0\\
+0 & 1 & 3\\
+2 & 1 & 1
+\end{pmatrix}.
+\]
+Restando dos veces la primera fila a la tercera, obtenemos
+\[
+\begin{pmatrix}
+1 & 2 & 0\\
+0 & 1 & 3\\
+0 & -3 & 1
+\end{pmatrix}.
+\]
+Estas operaciones no cambian el determinante. Luego sumando tres veces la segunda fila a la tercera,
+\[
+\begin{pmatrix}
+1 & 2 & 0\\
+0 & 1 & 3\\
+0 & 0 & 10
+\end{pmatrix}.
+\]
+El determinante de una matriz triangular es el producto de la diagonal, de modo que
+\[
+\det(A)=1\cdot 1\cdot 10=10.
+\]
+\end{example}
+
+\section{Polinomio característico, eigenvalores y eigenvectores}
+\begin{ideaBox}
+Los eigenvectores son direcciones privilegiadas: el operador no las mezcla con otras, solo las estira, contrae o rota por un factor escalar. Encontrar estas direcciones suele transformar un problema complicado en varios problemas unidimensionales.
+\end{ideaBox}
+\begin{definition}
+Sea \(T:V\to V\) un endomorfismo, con \(\dim V=n\). El \emph{polinomio característico} de \(T\) es
+\[
+\charpol_T(\lambda)=\det(\lambda I-[T]_{\mathcal{B}}),
+\]
+donde \(\mathcal{B}\) es cualquier base de \(V\).
+\end{definition}
+
+\begin{remark}
+La definición no depende de la base elegida, porque matrices semejantes tienen el mismo polinomio característico:
+\[
+\det(\lambda I-P^{-1}AP)=\det(P^{-1}(\lambda I-A)P)=\det(\lambda I-A).
+\]
+\end{remark}
+
+\begin{definition}
+Un escalar \(\lambda\in\K\) es un \emph{eigenvalor} de \(T\) si existe un vector no nulo \(v\in V\) tal que
+\[
+T(v)=\lambda v.
+\]
+El vector \(v\) se llama \emph{eigenvector} asociado a \(\lambda\).
+\end{definition}
+
+\begin{proposition}
+\(\lambda\) es eigenvalor de \(T\) si y solo si
+\[
+\det(\lambda I-T)=0.
+\]
+Equivalente: los eigenvalores son exactamente las raíces del polinomio característico.
+\end{proposition}
+
+\begin{proof}
+La condición \(T(v)=\lambda v\) para algún \(v\neq 0\) equivale a
+\[
+(\lambda I-T)(v)=0
+\]
+con \(v\neq 0\), es decir, a que \(\lambda I-T\) no sea inyectiva. En dimensión finita, eso equivale a no ser invertible; y una matriz cuadrada no es invertible si y solo si su determinante es cero. \end{proof}
+
+\begin{example}[Cálculo completo de eigenvalores]
+Sea
+\[
+A=
+\begin{pmatrix}
+3 & 1\\
+1 & 2
+\end{pmatrix}.
+\]
+Entonces
+\[
+\charpol_A(\lambda)=
+\det\begin{pmatrix}
+\lambda-3 & -1\\
+-1 & \lambda-2
+\end{pmatrix}
+=(\lambda-3)(\lambda-2)-1
+=\lambda^2-5\lambda+5.
+\]
+Sus raíces son
+\[
+\lambda_{\pm}=\frac{5\pm\sqrt{5}}{2}.
+\]
+Para \(\lambda_+=\frac{5+\sqrt5}{2}\), resolvemos
+\[
+(A-\lambda_+ I)v=0.
+\]
+La primera ecuación es
+\[
+\left(3-\frac{5+\sqrt5}{2}\right)x+y=0
+\iff
+\frac{1-\sqrt5}{2}x+y=0,
+\]
+por lo que podemos tomar
+\[
+v_+=\left(1,\frac{\sqrt5-1}{2}\right).
+\]
+Análogamente, para \(\lambda_-\), un eigenvector es
+\[
+v_-\!=\!\left(1,-\frac{1+\sqrt5}{2}\right).
+\]
+\end{example}
+
+\section{Diagonalización}
+\begin{methodBox}
+Diagonalizar significa encontrar coordenadas adaptadas al operador. En esa base especial, el operador actúa independientemente sobre cada dirección coordinada. Por eso, una matriz diagonal es el análogo lineal de una forma ``normal''.
+\end{methodBox}
+
+\begin{warningBox}
+No basta con que una matriz tenga eigenvalores: para diagonalizar hace falta disponer de suficientes eigenvectores linealmente independientes. La verdadera condición es que la suma de dimensiones de los espacios propios sea toda la dimensión del espacio.
+\end{warningBox}
+\begin{definition}
+Un endomorfismo \(T:V\to V\) es \emph{diagonalizable} si existe una base de \(V\) formada por eigenvectores de \(T\). Equivalente: si en alguna base su matriz es diagonal.
+\end{definition}
+
+\begin{proposition}
+Eigenvectores asociados a eigenvalores distintos son linealmente independientes.
+\end{proposition}
+
+\begin{proof}
+Sea \(v_1,\dots,v_r\) con
+\[
+T(v_i)=\lambda_i v_i,
+\qquad
+\lambda_i\neq \lambda_j\ \text{si }i\neq j.
+\]
+Procedemos por inducción. Para \(r=1\) no hay nada que probar. Supongamos una relación
+\[
+a_1v_1+\cdots+a_r v_r=0.
+\]
+Aplicando \(T\),
+\[
+a_1\lambda_1v_1+\cdots+a_r\lambda_r v_r=0.
+\]
+Multiplicando la primera relación por \(\lambda_r\) y restando, obtenemos
+\[
+a_1(\lambda_1-\lambda_r)v_1+\cdots+a_{r-1}(\lambda_{r-1}-\lambda_r)v_{r-1}=0.
+\]
+Por hipótesis inductiva, \(a_1=\cdots=a_{r-1}=0\), y entonces también \(a_r=0\). \end{proof}
+
+\begin{theorem}
+Sea \(T:V\to V\) con \(\dim V=n\). Si el polinomio característico de \(T\) se separa en factores lineales y la suma de las dimensiones de los autoespacios es \(n\), entonces \(T\) es diagonalizable.
+\end{theorem}
+
+\begin{proof}
+Sea \(\lambda_1,\dots,\lambda_s\) la lista de eigenvalores distintos, y sea
+\[
+E_{\lambda_i}=\Ker(T-\lambda_i I)
+\]
+el autoespacio correspondiente. Por la proposición anterior, la suma de estos autoespacios es directa. Si la suma de sus dimensiones es \(n\), su suma directa tiene dimensión \(n\), luego coincide con \(V\). Tomando una base en cada autoespacio y uniéndolas, obtenemos una base de \(V\) formada por eigenvectores. \end{proof}
+
+\begin{corollary}
+Si un endomorfismo de dimensión \(n\) tiene \(n\) eigenvalores distintos en \(\K\), entonces es diagonalizable.
+\end{corollary}
+
+\begin{example}[Diagonalización completa]
+Sea
+\[
+A=
+\begin{pmatrix}
+4 & 0 & 0\\
+0 & 2 & 1\\
+0 & 1 & 2
+\end{pmatrix}.
+\]
+El bloque inferior tiene polinomio característico
+\[
+(\lambda-2)^2-1=(\lambda-1)(\lambda-3),
+\]
+de modo que los eigenvalores de \(A\) son \(4,3,1\), todos distintos. Luego \(A\) es diagonalizable.
+
+Calculemos eigenvectores:
+\begin{itemize}
+\item Para \(\lambda=4\), un eigenvector es \((1,0,0)\).
+\item Para \(\lambda=3\), el bloque inferior satisface
+\[
+\begin{pmatrix}
+-1 & 1\\
+1 & -1
+\end{pmatrix}
+\binom{y}{z}=0,
+\]
+luego \(y=z\), y un eigenvector es \((0,1,1)\).
+\item Para \(\lambda=1\),
+\[
+\begin{pmatrix}
+1 & 1\\
+1 & 1
+\end{pmatrix}
+\binom{y}{z}=0,
+\]
+luego \(y=-z\), y un eigenvector es \((0,1,-1)\).
+\end{itemize}
+Si
+\[
+P=
+\begin{pmatrix}
+1 & 0 & 0\\
+0 & 1 & 1\\
+0 & 1 & -1
+\end{pmatrix},
+\]
+entonces
+\[
+P^{-1}AP=\diag(4,3,1).
+\]
+\end{example}
+
+\section{Triangulación y bloques de Jordan}
+\begin{summaryBox}
+No todo operador es diagonalizable, pero sobre un campo algebraicamente cerrado siempre puede describirse de una manera casi diagonal: mediante bloques de Jordan. Esta forma normal separa con precisión dos aspectos distintos del operador: el valor propio \(\lambda\), que dice \emph{sobre qué dirección geométrica actúa}, y la parte nilpotente, que mide \emph{cuánto falla} la diagonalización.
+\end{summaryBox}
+
+No todo operador es diagonalizable. Sin embargo, sobre un campo algebraicamente cerrado como \(\C\), todo operador en dimensión finita admite representación triangular superior. La forma de Jordan refina esta triangularización hasta una forma normal casi canónica.
+
+\begin{theorem}[Triangularización sobre \(\C\)]
+Sea \(T:V\to V\) un endomorfismo de un espacio vectorial complejo de dimensión finita. Entonces existe una base de \(V\) respecto de la cual la matriz de \(T\) es triangular superior.
+\end{theorem}
+
+\begin{proof}
+Por el teorema fundamental del álgebra, el polinomio característico de \(T\) tiene una raíz \(\lambda\in\C\), luego existe un eigenvector \(v_1\neq 0\). El subespacio \(\C v_1\) es estable por \(T\). Esto produce un operador inducido \(\overline T\) sobre el cociente \(V/\C v_1\), y el proceso se resume en el diagrama conmutativo exacto
+\[
+\begin{tikzcd}
+0 \arrow[r] & \C v_1 \arrow[r,hook] \arrow[d,"T|_{\C v_1}"] & V \arrow[r] \arrow[d,"T"] & V/\C v_1 \arrow[r] \arrow[d,"\overline T"] & 0 \\
+0 \arrow[r] & \C v_1 \arrow[r,hook] & V \arrow[r] & V/\C v_1 \arrow[r] & 0.
+\end{tikzcd}
+\]
+Aplicando inducción sobre la dimensión al operador inducido \(\overline T\), se obtiene una base del cociente en la cual la matriz es triangular superior. Levantando esa base a \(V\) y anteponiendo \(v_1\), obtenemos una base de \(V\) en la que la matriz de \(T\) es triangular superior.
+\end{proof}
+
+\begin{definition}
+Sea \(T:V\to V\) y sea \(\lambda\in\K\). El \emph{espacio propio generalizado} asociado a \(\lambda\) es
+\[
+G_\lambda(T)=\bigcup_{m\ge 1}\Ker\bigl((T-\lambda I)^m\bigr).
+\]
+En dimensión finita esta cadena de núcleos se estabiliza, así que existe \(m_0\) tal que
+\[
+G_\lambda(T)=\Ker\bigl((T-\lambda I)^{m_0}\bigr).
+\]
+Sus vectores se llaman \emph{eigenvectores generalizados}.
+\end{definition}
+
+\begin{intuitionBox}
+Un eigenvector ordinario satisface \((T-\lambda I)v=0\): al actuar con \(T\), el vector solo se escala. En cambio, un eigenvector generalizado satisface \((T-\lambda I)^m v=0\) para algún \(m\), de modo que tras restar la parte diagonal \(\lambda I\), lo que queda es una dinámica nilpotente que termina apagándose después de varios pasos. Los bloques de Jordan registran exactamente esa longitud de apagamiento.
+\end{intuitionBox}
+
+\begin{proposition}[Descomposición primaria]
+Supongamos que el polinomio característico de \(T\) se separa como
+\[
+\chi_T(X)=\prod_{i=1}^s (X-\lambda_i)^{a_i}
+\]
+con \(\lambda_i\) distintos. Entonces
+\[
+V=G_{\lambda_1}(T)\oplus\cdots\oplus G_{\lambda_s}(T).
+\]
+Además, la restricción de \(T\) a cada \(G_{\lambda_i}(T)\) tiene la forma
+\[
+T|_{G_{\lambda_i}}=\lambda_i I+N_i,
+\]
+donde \(N_i\) es nilpotente.
+\end{proposition}
+
+\begin{proof}
+Los polinomios \((X-\lambda_i)^{a_i}\) son coprimos dos a dos. Por identidades de Bézout existen polinomios \(q_i(X)\) tales que
+\[
+1=\sum_{i=1}^s q_i(X)\prod_{j\ne i}(X-\lambda_j)^{a_j}.
+\]
+Al evaluar en \(T\), esta identidad expresa el operador identidad como suma de proyecciones polinómicas con imágenes contenidas en los espacios \(G_{\lambda_i}(T)\). De aquí se obtiene que todo vector se descompone como suma de vectores en los distintos espacios propios generalizados. La suma es directa porque, si un vector pertenece simultáneamente a dos de esos espacios, queda aniquilado por potencias de polinomios coprimos, y entonces una identidad de Bézout fuerza al vector a ser cero. Finalmente, sobre \(G_{\lambda_i}(T)\) el operador \(T-\lambda_i I\) es nilpotente por definición misma de espacio propio generalizado.
+\end{proof}
+
+\begin{definition}
+El \emph{bloque de Jordan} de tamaño \(r\) asociado a \(\lambda\) es la matriz
+\[
+J_r(\lambda)=
+\begin{pmatrix}
+\lambda & 1 & 0 & \cdots & 0\\
+0 & \lambda & 1 & \ddots & \vdots\\
+\vdots & \ddots & \ddots & \ddots & 0\\
+\vdots &  & \ddots & \lambda & 1\\
+0 & \cdots & \cdots & 0 & \lambda
+\end{pmatrix}.
+\]
+Puede escribirse como
+\[
+J_r(\lambda)=\lambda I_r+J_r(0),
+\]
+donde \(J_r(0)\) es nilpotente y tiene unos en la superdiagonal.
+\end{definition}
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,baseline=(current bounding box.center)]
+  \node[draw=ihesblue, rounded corners=6pt, fill=blue!4, minimum width=1.1cm, minimum height=0.8cm] (v1) at (0,0) {$v_1$};
+  \node[draw=ihesblue, rounded corners=6pt, fill=blue!4, minimum width=1.1cm, minimum height=0.8cm] (v2) at (2.2,0) {$v_2$};
+  \node[draw=ihesblue, rounded corners=6pt, fill=blue!4, minimum width=1.1cm, minimum height=0.8cm] (v3) at (4.4,0) {$v_3$};
+  \node at (6.15,0) {$\cdots$};
+  \node[draw=ihesblue, rounded corners=6pt, fill=blue!4, minimum width=1.1cm, minimum height=0.8cm] (vr) at (7.9,0) {$v_r$};
+  \draw[->,thick] (v1) -- node[above,font=\small] {$T-\lambda I$} (v2);
+  \draw[->,thick] (v2) -- node[above,font=\small] {$T-\lambda I$} (v3);
+  \draw[->,thick] (v3) -- (5.65,0);
+  \draw[->,thick] (6.65,0) -- node[above,font=\small] {$T-\lambda I$} (vr);
+  \draw[->,thick] (vr) -- +(1.4,0) node[right] {$0$};
+\end{tikzpicture}
+
+{\small Figura guía: una cadena de Jordan. Cada aplicación de \(T-\lambda I\) avanza un paso hasta anularse.}
+\end{center}
+
+\begin{definition}
+Una familia
+\[
+v_1,\dots,v_r
+\]
+se llama una \emph{cadena de Jordan} de longitud \(r\) para el valor propio \(\lambda\) si
+\[
+(T-\lambda I)v_1=0,
+\qquad
+(T-\lambda I)v_j=v_{j-1}\quad (2\le j\le r).
+\]
+Respecto de la base ordenada \((v_1,\dots,v_r)\), la matriz de \(T\) es exactamente \(J_r(\lambda)\).
+\end{definition}
+
+\begin{proposition}[Caso nilpotente]
+Sea \(N:V\to V\) nilpotente. Entonces existe una base de \(V\) formada por cadenas de Jordan para \(N\). En particular, la matriz de \(N\) en esa base es una suma directa de bloques \(J_r(0)\).
+\end{proposition}
+
+\begin{proof}
+Consideremos la filtración creciente de núcleos
+\[
+0\subseteq \Ker N\subseteq \Ker N^2\subseteq\cdots\subseteq \Ker N^m=V
+\]
+para \(m\) suficientemente grande. La diferencia entre \(\Ker N^j\) y \(\Ker N^{j-1}\) mide cuántos vectores necesitan exactamente \(j\) aplicaciones de \(N\) para anularse. Elegimos, para cada \(j\), una familia de vectores en \(\Ker N^j\) cuyas clases formen una base del cociente
+\[
+\Ker N^j\Big/\bigl(\Ker N^{j-1}+N(\Ker N^{j+1})\bigr).
+\]
+Cada uno de esos vectores inicia una cadena
+\[
+v,\ Nv,\ N^2v,\ \dots,\ N^{j-1}v,
+\]
+con último término no nulo y siguiente término igual a cero. La elección de clases en esos cocientes impide redundancias entre cadenas distintas. Reuniendo todas las cadenas obtenidas se construye una familia linealmente independiente que, por conteo de dimensiones a lo largo de la filtración de núcleos, genera todo \(V\). En esa base, \(N\) actúa desplazando cada cadena un paso hacia la izquierda y anulando el primer vector; esa acción es exactamente la del bloque nilpotente de Jordan.
+\end{proof}
+
+\begin{theorem}[Forma normal de Jordan]
+Sea \(T:V\to V\) un endomorfismo de dimensión finita sobre un campo algebraicamente cerrado. Entonces existe una base de \(V\) respecto de la cual la matriz de \(T\) es una suma directa de bloques de Jordan
+\[
+J_{r_1}(\lambda_1)\oplus \cdots \oplus J_{r_m}(\lambda_m).
+\]
+Esta descomposición es única salvo permutación de bloques.
+\end{theorem}
+
+\begin{proof}
+Por la descomposición primaria,
+\[
+V=\bigoplus_{\lambda} G_\lambda(T).
+\]
+En cada sumando \(G_\lambda(T)\), el operador se escribe como
+\[
+T=\lambda I+N_\lambda
+\]
+con \(N_\lambda\) nilpotente. Aplicando la proposición anterior a \(N_\lambda\), obtenemos una base de \(G_\lambda(T)\) formada por cadenas de Jordan. En esa base, la matriz de \(T\) sobre \(G_\lambda(T)\) es suma directa de bloques \(J_r(\lambda)\). Uniendo las bases de todos los sumandos \(G_\lambda(T)\), obtenemos una base de \(V\) en la cual la matriz total de \(T\) es una suma directa de bloques de Jordan.
+
+La unicidad de los tamaños de bloque se deduce de los crecimientos de las dimensiones de los núcleos de \((T-\lambda I)^k\), que son invariantes bajo semejanza; esos números determinan cuántos bloques hay de cada tamaño. Por tanto, la forma de Jordan es única salvo reordenamiento de los bloques.
+\end{proof}
+
+\begin{proposition}[Criterios de diagonalización]
+Sea \(T\) un endomorfismo cuyo polinomio característico se separa. Son equivalentes:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \(T\) es diagonalizable.
+\item Todos los bloques de Jordan de \(T\) tienen tamaño \(1\).
+\item El polinomio mínimo de \(T\) no tiene raíces múltiples.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+La equivalencia entre \textup{(i)} y \textup{(ii)} es inmediata: una matriz diagonal es precisamente una suma directa de bloques \(1\times 1\). Por otra parte, el polinomio mínimo de una forma de Jordan es
+\[
+m_T(X)=\prod_{\lambda}(X-\lambda)^{s_\lambda},
+\]
+donde \(s_\lambda\) es el tamaño del mayor bloque de Jordan asociado a \(\lambda\). Así, \(m_T\) es libre de cuadrados si y solo si cada \(s_\lambda=1\), es decir, si y solo si todos los bloques tienen tamaño \(1\).
+\end{proof}
+
+\begin{proposition}[Cómo leer los tamaños de los bloques]
+Fijado \(\lambda\), pongamos \(N=(T-\lambda I)|_{G_\lambda(T)}\) y definamos
+\[
+k_j=\dim\Ker(N^j),\qquad j\ge1,
+\]
+con \(k_0=0\). Entonces:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item el número de bloques de Jordan de tamaño al menos \(j\) es \(k_j-k_{j-1}\);
+\item el número de bloques de tamaño exactamente \(j\) es
+\[
+2k_j-k_{j-1}-k_{j+1}.
+\]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Si los tamaños de los bloques son \(s_1,\dots,s_t\), entonces
+\[
+k_j=\sum_{i=1}^t \min(j,s_i).
+\]
+Por consiguiente,
+\[
+k_j-k_{j-1}=\#\{i: s_i\ge j\},
+\]
+que demuestra \textup{(a)}. Restando dos veces seguidas,
+\[
+(k_j-k_{j-1})-(k_{j+1}-k_j)=2k_j-k_{j-1}-k_{j+1},
+\]
+obtenemos exactamente el número de bloques cuya longitud es \(j\).
+\end{proof}
+
+\begin{example}[Un bloque no diagonalizable]
+Sea
+\[
+A=
+\begin{pmatrix}
+5&1&0&0\\
+0&5&1&0\\
+0&0&5&0\\
+0&0&0&2
+\end{pmatrix}.
+\]
+La matriz ya está en forma de Jordan: contiene un bloque \(J_3(5)\) y un bloque \(J_1(2)\). Por tanto,
+\[
+\chi_A(X)=(X-5)^3(X-2),
+\qquad
+m_A(X)=(X-5)^3(X-2).
+\]
+No es diagonalizable porque el valor propio \(5\) tiene un bloque de tamaño mayor que \(1\).
+\end{example}
+
+\begin{example}[Reconstrucción de bloques a partir de núcleos]
+Supongamos que para un valor propio \(\lambda\) se tiene
+\[
+\dim\Ker(T-\lambda I)=2,
+\qquad
+\dim\Ker(T-\lambda I)^2=3,
+\qquad
+\dim\Ker(T-\lambda I)^3=4.
+\]
+Entonces el número de bloques de tamaño al menos \(1\), \(2\) y \(3\) es, respectivamente,
+\[
+2,
+\qquad
+1,
+\qquad
+1.
+\]
+Eso fuerza la partición \(3+1\). En otras palabras, la parte de Jordan asociada a \(\lambda\) consta de un bloque \(J_3(\lambda)\) y un bloque \(J_1(\lambda)\).
+\end{example}
+
+\begin{methodBox}
+Para estudiar una matriz con eigenvalores repetidos conviene seguir este esquema:
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item factorizar el polinomio característico;
+\item calcular espacios propios ordinarios \(\Ker(T-\lambda I)\);
+\item si no bastan para diagonalizar, calcular núcleos de potencias \(\Ker(T-\lambda I)^2,\Ker(T-\lambda I)^3,\dots\);
+\item reconstruir el tamaño de los bloques de Jordan mediante el crecimiento de esas dimensiones.
+\end{enumerate}
+Así, Jordan deja de ser una receta misteriosa y se convierte en una lectura fina de la nilpotencia residual.
+\end{methodBox}
+
+\section{Formas bilineales y cuadráticas}
+\begin{ideaBox}
+Una forma bilineal permite medir interacción entre dos vectores; una forma cuadrática mide energía, curvatura o longitud al evaluar la forma en el mismo vector dos veces. En coordenadas, ambas se codifican por matrices, pero geométricamente describen cónicas, superficies y nociones de ortogonalidad.
+\end{ideaBox}
+\begin{definition}
+Una \emph{forma bilineal} sobre un espacio vectorial \(V\) es una aplicación
+\[
+B:V\times V\to\K
+\]
+lineal en cada variable por separado.
+\end{definition}
+
+\begin{definition}
+Si \(\mathrm{char}(\K)\neq 2\), una forma bilineal \(B\) es \emph{simétrica} si
+\[
+B(x,y)=B(y,x)
+\]
+para todos \(x,y\in V\). La forma cuadrática asociada es
+\[
+q(x)=B(x,x).
+\]
+\end{definition}
+
+\begin{proposition}
+Sea \(B\) una forma bilineal en un espacio vectorial finito \(V\), y sea \(\mathcal{B}=(e_1,\dots,e_n)\) una base. Entonces existe una única matriz \(M=(m_{ij})\) tal que
+\[
+B(x,y)=[x]_{\mathcal{B}}\transpose M [y]_{\mathcal{B}}.
+\]
+Más precisamente, \(m_{ij}=B(e_i,e_j)\).
+\end{proposition}
+
+\begin{proof}
+Si
+\[
+x=\sum_i x_i e_i,
+\qquad
+y=\sum_j y_j e_j,
+\]
+por bilinealidad,
+\[
+B(x,y)=\sum_{i,j} x_i y_j B(e_i,e_j)=\sum_{i,j} x_i m_{ij} y_j,
+\]
+que es precisamente la expresión matricial indicada. La unicidad es clara porque los coeficientes quedan determinados por los valores en los vectores de la base. \end{proof}
+
+\begin{example}[Forma bilineal simétrica en \(\R^2\)]
+Sea
+\[
+B((x_1,x_2),(y_1,y_2))=2x_1y_1+x_1y_2+x_2y_1+3x_2y_2.
+\]
+Entonces su matriz en la base canónica es
+\[
+M=
+\begin{pmatrix}
+2 & 1\\
+1 & 3
+\end{pmatrix}.
+\]
+La forma cuadrática asociada es
+\[
+q(x_1,x_2)=2x_1^2+2x_1x_2+3x_2^2.
+\]
+\end{example}
+
+\section{Productos internos, ortogonalidad y Gram--Schmidt}
+\begin{summaryBox}
+Con un producto interno, el espacio vectorial deja de ser puramente algebraico y adquiere geometría: longitudes, ángulos, proyecciones y ortogonalidad. Gram--Schmidt es el procedimiento sistemático para construir coordenadas compatibles con esa geometría.
+\end{summaryBox}
+A partir de este punto supondremos \(\K=\R\) o \(\C\).
+
+\begin{definition}
+Un \emph{producto interno} en \(V\) es una aplicación
+\[
+\angles{\cdot,\cdot}:V\times V\to\K
+\]
+que satisface:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item sesquilinealidad (bilinealidad si \(\K=\R\));
+\item simetría hermítica: \(\angles{x,y}=\overline{\angles{y,x}}\);
+\item positividad definida: \(\angles{x,x}\ge 0\) y \(\angles{x,x}=0\) si y solo si \(x=0\).
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Dos vectores \(x,y\in V\) son \emph{ortogonales} si \(\angles{x,y}=0\). Una familia es \emph{ortonormal} si sus elementos tienen norma \(1\) y son mutuamente ortogonales.
+\end{definition}
+
+\begin{theorem}[Desigualdad de Cauchy--Schwarz]
+Para cualesquiera \(x,y\in V\),
+\[
+\abs{\angles{x,y}}\le \norm{x}\,\norm{y}.
+\]
+\end{theorem}
+
+\begin{proof}
+Si \(y=0\), es trivial. Supongamos \(y\neq 0\). Para todo \(\lambda\in\K\),
+\[
+0\le \norm{x-\lambda y}^2
+=\angles{x-\lambda y,x-\lambda y}.
+\]
+Eligiendo
+\[
+\lambda=\frac{\angles{x,y}}{\angles{y,y}},
+\]
+se obtiene
+\[
+0\le \norm{x}^2-\frac{\abs{\angles{x,y}}^2}{\norm{y}^2},
+\]
+lo cual implica la desigualdad deseada. \end{proof}
+
+\begin{theorem}[Gram--Schmidt]
+Toda base \((v_1,\dots,v_n)\) de un espacio con producto interno puede transformarse en una base ortonormal \((u_1,\dots,u_n)\) tal que
+\[
+\Span(v_1,\dots,v_k)=\Span(u_1,\dots,u_k)
+\qquad
+\text{para todo }k.
+\]
+\end{theorem}
+
+\begin{proof}
+Definimos inductivamente
+\[
+w_1=v_1,
+\qquad
+u_1=\frac{w_1}{\norm{w_1}}.
+\]
+Suponiendo construidos \(u_1,\dots,u_{k-1}\), definimos
+\[
+w_k=v_k-\sum_{j=1}^{k-1}\angles{v_k,u_j}u_j.
+\]
+Entonces \(w_k\) es ortogonal a \(u_1,\dots,u_{k-1}\). Además, \(w_k\neq 0\); en efecto, si fuera cero, \(v_k\) pertenecería al span de \(v_1,\dots,v_{k-1}\), contradiciendo que la familia original es base. Tomamos entonces
+\[
+u_k=\frac{w_k}{\norm{w_k}}.
+\]
+La propiedad de ortonormalidad es inmediata, y la igualdad de spans se verifica inductivamente por construcción. \end{proof}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+  \draw[->] (-0.2,0) -- (4.4,0) node[right] {$x$};
+  \draw[->] (0,-0.2) -- (0,3.2) node[above] {$y$};
+  \draw[ihesblue,very thick,->] (0,0) -- (3.2,1.1) node[below right] {$v$};
+  \draw[teal!70!black,very thick,->] (0,0) -- (2.4,0.8) node[below] {$\operatorname{proj}_u(v)$};
+  \draw[red!70!black,very thick,->] (2.4,0.8) -- (3.2,1.1) node[above] {$v-\operatorname{proj}_u(v)$};
+  \draw[dashed] (3.2,1.1) -- (2.4,0.8);
+  \node at (1.25,0.15) {$u$};
+  \draw (2.55,0.79) rectangle +(0.16,0.16);
+\end{tikzpicture}
+
+{\small Gram--Schmidt separa un vector en una parte paralela a la dirección ya construida y una parte ortogonal nueva.}
+\end{center}
+
+\begin{example}[Gram--Schmidt detallado]
+En \(\R^3\) con el producto escalar usual, consideremos
+\[
+v_1=(1,1,0),\qquad v_2=(1,0,1),\qquad v_3=(0,1,1).
+\]
+Primero,
+\[
+w_1=v_1=(1,1,0),
+\qquad
+\norm{w_1}=\sqrt{2},
+\qquad
+u_1=\frac{1}{\sqrt2}(1,1,0).
+\]
+Después,
+\[
+\angles{v_2,u_1}=\frac{1}{\sqrt2},
+\]
+y por tanto
+\[
+w_2=v_2-\angles{v_2,u_1}u_1
+=(1,0,1)-\frac{1}{\sqrt2}\cdot\frac{1}{\sqrt2}(1,1,0)
+=\left(\frac12,-\frac12,1\right).
+\]
+Entonces
+\[
+\norm{w_2}=\sqrt{\frac14+\frac14+1}=\sqrt{\frac32}=\frac{\sqrt6}{2},
+\]
+y así
+\[
+u_2=\frac{2}{\sqrt6}\left(\frac12,-\frac12,1\right)=\left(\frac1{\sqrt6},-\frac1{\sqrt6},\frac{2}{\sqrt6}\right).
+\]
+Para \(v_3\), calculamos
+\[
+\angles{v_3,u_1}=\frac1{\sqrt2},
+\qquad
+\angles{v_3,u_2}=\frac1{\sqrt6}.
+\]
+Luego
+\[
+w_3=v_3-\frac1{\sqrt2}u_1-\frac1{\sqrt6}u_2.
+\]
+Sustituyendo,
+\[
+w_3=(0,1,1)-\left(\frac12,\frac12,0\right)-\left(\frac16,-\frac16,\frac13\right)
+=\left(-\frac23,\frac23,\frac23\right).
+\]
+Finalmente,
+\[
+\norm{w_3}=\frac{2}{\sqrt3},
+\qquad
+u_3=\frac{\sqrt3}{2}\left(-\frac23,\frac23,\frac23\right)=\left(-\frac1{\sqrt3},\frac1{\sqrt3},\frac1{\sqrt3}\right).
+\]
+Así obtenemos una base ortonormal completa.
+\end{example}
+
+\section{Operadores adjuntos y matrices ortogonales/unitarias}
+\begin{ideaBox}
+El adjunto es la forma correcta de ``pasar'' una transformación de un lado al otro del producto interno. Las matrices ortogonales y unitarias son las que preservan esa geometría; por ello representan simetrías rígidas del espacio.
+\end{ideaBox}
+\begin{definition}
+Sea \(T:V\to V\) un operador lineal en un espacio con producto interno. Su \emph{adjunto} es el único operador \(T^*:V\to V\) tal que
+\[
+\angles{T(x),y}=\angles{x,T^*(y)}
+\qquad
+\text{para todos }x,y\in V.
+\]
+\end{definition}
+
+\begin{proposition}
+Respecto de una base ortonormal, la matriz de \(T^*\) es la traspuesta conjugada de la matriz de \(T\):
+\[
+[T^*]=\overline{[T]}\transpose.
+\]
+En el caso real, simplemente \([T^*]=[T]\transpose\).
+\end{proposition}
+
+\begin{definition}
+Un operador \(T\) es \emph{autoadjunto} si \(T=T^*\). Es \emph{normal} si \(TT^*=T^*T\). Es \emph{ortogonal} (en el caso real) o \emph{unitario} (en el caso complejo) si
+\[
+T^*T=TT^*=I.
+\]
+\end{definition}
+
+\begin{proposition}
+Sea \(Q\in\Mat_n(\R)\). Son equivalentes:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \(Q\) es ortogonal, es decir, \(Q\transpose Q=I\).
+\item Las columnas de \(Q\) forman una base ortonormal de \(\R^n\).
+\item \(Q\) preserva el producto escalar y la norma: \(\angles{Qx,Qy}=\angles{x,y}\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+La equivalencia entre \((i)\) y \((ii)\) se obtiene observando que la entrada \((i,j)\) de \(Q\transpose Q\) es el producto escalar entre la columna \(i\) y la columna \(j\) de \(Q\). La equivalencia con \((iii)\) se deduce de
+\[
+\angles{Qx,Qy}=x\transpose Q\transpose Qy.
+\]
+\end{proof}
+
+\section{Teorema espectral}
+\begin{ideaBox}
+El teorema espectral afirma que los operadores autoadjuntos o normales poseen coordenadas intrínsecamente adaptadas a su geometría. En esas coordenadas, toda la información esencial queda concentrada en los eigenvalores y en una descomposición ortogonal del espacio.
+\end{ideaBox}
+\begin{theorem}[Teorema espectral real]
+Sea \(T:V\to V\) un operador autoadjunto en un espacio euclídeo de dimensión finita. Entonces existe una base ortonormal de \(V\) formada por eigenvectores de \(T\). En particular, la matriz de \(T\) en esa base es diagonal con entradas reales.
+\end{theorem}
+
+\begin{proof}
+Presentamos una demostración estándar por inducción sobre \(n=\dim V\). El polinomio característico de \(T\) tiene al menos una raíz real porque la matriz de \(T\) es simétrica real, y por teoría básica del espectro real de matrices simétricas, existe un eigenvalor real \(\lambda\) y un eigenvector unitario \(u\).
+
+Sea
+\[
+U=u^{\perp}=\set{x\in V:\angles{x,u}=0}.
+\]
+Afirmamos que \(U\) es estable por \(T\). En efecto, si \(x\in U\), entonces
+\[
+\angles{T(x),u}=\angles{x,T(u)}=\angles{x,\lambda u}=\lambda\angles{x,u}=0.
+\]
+Por tanto \(T(x)\in U\). El operador restringido \(T|_U\) sigue siendo autoadjunto. Por hipótesis inductiva, existe una base ortonormal de \(U\) formada por eigenvectores de \(T|_U\). Añadiendo \(u\), obtenemos una base ortonormal completa de \(V\) formada por eigenvectores de \(T\). \end{proof}
+
+\begin{theorem}[Teorema espectral complejo]
+Sea \(T\) un operador normal en un espacio hermítico complejo de dimensión finita. Entonces existe una base ortonormal de \(V\) en la que la matriz de \(T\) es diagonal.
+\end{theorem}
+
+\begin{remark}
+Los operadores autoadjuntos son el caso más geométricamente transparente del teorema espectral. La autoadjunción permite interpretar la diagonalización ortonormal como una descomposición en direcciones principales mutuamente ortogonales.
+\end{remark}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+  \draw[->] (-3.2,0) -- (3.2,0) node[right] {$x_1$};
+  \draw[->] (0,-2.7) -- (0,2.7) node[above] {$x_2$};
+  \draw[ihesblue,thick,rotate around={30:(0,0)}] (0,0) ellipse (2.3 and 1.2);
+  \draw[ihesblue,thick,rotate around={30:(0,0)}] (0,0) ellipse (1.55 and 0.78);
+  \draw[ihesblue,thick,rotate around={30:(0,0)}] (0,0) ellipse (0.8 and 0.4);
+  \draw[red!75!black,very thick,->] (0,0) -- ({2.5*cos(30)},{2.5*sin(30)}) node[above] {$u_1$};
+  \draw[teal!75!black,very thick,->] (0,0) -- ({-1.7*sin(30)},{1.7*cos(30)}) node[left] {$u_2$};
+\end{tikzpicture}
+
+{\small Una forma cuadrática simétrica se visualiza mediante elipses cuyas direcciones principales son eigenvectores ortogonales.}
+\end{center}
+
+\begin{intuitionBox}
+Geométricamente, el teorema espectral afirma que una forma cuadrática simétrica puede leerse en coordenadas ortogonales privilegiadas. En esas coordenadas desaparecen los términos cruzados y la geometría queda alineada con los ejes principales.
+\end{intuitionBox}
+
+\begin{example}[Diagonalización ortogonal de una matriz simétrica]
+Sea
+\[
+A=
+\begin{pmatrix}
+2 & 1\\
+1 & 2
+\end{pmatrix}.
+\]
+Su polinomio característico es
+\[
+(\lambda-2)^2-1=(\lambda-1)(\lambda-3).
+\]
+Para \(\lambda=3\), un eigenvector es \((1,1)\); para \(\lambda=1\), un eigenvector es \((1,-1)\). Normalizando,
+\[
+u_1=\frac{1}{\sqrt2}(1,1),
+\qquad
+u_2=\frac{1}{\sqrt2}(1,-1).
+\]
+La matriz ortogonal
+\[
+Q=
+\frac{1}{\sqrt2}
+\begin{pmatrix}
+1 & 1\\
+1 & -1
+\end{pmatrix}
+\]
+satisface
+\[
+Q\transpose AQ=
+\begin{pmatrix}
+3 & 0\\
+0 & 1
+\end{pmatrix}.
+\]
+Esta diagonalización no es una semejanza cualquiera: es una semejanza ortogonal, que preserva la geometría euclídea.
+\end{example}
+
+\section{Trazas, invariantes y relaciones entre conceptos}
+\begin{summaryBox}
+Esta sección sirve para cerrar el círculo: traza, determinante, rango, espectro y diagonalización no son temas separados, sino distintas manifestaciones de la misma estructura lineal observada desde perspectivas complementarias.
+\end{summaryBox}
+\begin{proposition}
+La traza de una matriz cuadrada,
+\[
+\tr(A)=\sum_{i=1}^n a_{ii},
+\]
+es invariante por semejanza. Más aún,
+\[
+\tr(AB)=\tr(BA)
+\]
+para cualesquiera matrices compatibles.
+\end{proposition}
+
+\begin{proof}
+La identidad \(\tr(AB)=\tr(BA)\) se verifica expandiendo ambos lados y reordenando las sumas finitas. Si \(B=P^{-1}AP\), entonces
+\[
+\tr(B)=\tr(P^{-1}AP)=\tr(APP^{-1})=\tr(A).
+\]
+\end{proof}
+
+\begin{remark}
+En dimensión finita, el determinante, el trazo, el polinomio característico y la multiconjunto de eigenvalores son invariantes de semejanza. Esto expresa que pertenecen al operador lineal, no a una elección de coordenadas.
+\end{remark}
+
+\begin{proposition}
+Si \(A\) es diagonalizable con eigenvalores \(\lambda_1,\dots,\lambda_n\) contados con multiplicidad algebraica, entonces
+\[
+\tr(A)=\lambda_1+\cdots+\lambda_n,
+\qquad
+\det(A)=\lambda_1\cdots\lambda_n.
+\]
+\end{proposition}
+
+\begin{proof}
+Si \(A=PDP^{-1}\) con \(D=\diag(\lambda_1,\dots,\lambda_n)\), entonces, por invariancia de traza y determinante por semejanza,
+\[
+\tr(A)=\tr(D)=\sum_i\lambda_i,
+\qquad
+\det(A)=\det(D)=\prod_i\lambda_i.
+\]
+\end{proof}
+
+\section{Ejemplos integrales desarrollados}
+\begin{methodBox}
+Los ejemplos extensos son el lugar donde la teoría deja de verse fragmentada. Aquí conviene seguir cada cálculo preguntando siempre qué resultado estructural justifica el siguiente paso.
+\end{methodBox}
+En esta sección reunimos varios problemas completos donde interactúan varios de los conceptos anteriores.
+
+\begin{example}[Subespacios, suma, intersección y dimensión]
+En \(\R^4\), consideremos
+\[
+U=\Span\bigl((1,0,1,0),(0,1,0,1)\bigr),
+\qquad
+W=\Span\bigl((1,1,1,1),(1,-1,1,-1)\bigr).
+\]
+Primero observamos que
+\[
+U=\set{(a,b,a,b):a,b\in\R},
+\qquad
+W=\set{(c+d,c-d,c+d,c-d):c,d\in\R}.
+\]
+Estas descripciones muestran que en realidad
+\[
+U=W.
+\]
+Por tanto,
+\[
+U\cap W=U=W,
+\qquad
+U+W=U,
+\qquad
+\dim U=\dim W=2,
+\qquad
+\dim(U+W)=2.
+\]
+La fórmula
+\[
+\dim(U+W)=\dim U+\dim W-\dim(U\cap W)
+\]
+da entonces
+\[
+2=2+2-2,
+\]
+como debe ser.
+\end{example}
+
+\begin{example}[Rango, nulidad y matriz]
+Sea \(T:\R^4\to\R^3\) dada por
+\[
+T(x_1,x_2,x_3,x_4)=(x_1+x_2,\,x_2+x_3,\,x_3+x_4).
+\]
+La matriz en las bases canónicas es
+\[
+A=
+\begin{pmatrix}
+1 & 1 & 0 & 0\\
+0 & 1 & 1 & 0\\
+0 & 0 & 1 & 1
+\end{pmatrix}.
+\]
+Como las tres filas son claramente independientes, \(\rk(T)=3\). Por rango--nulidad,
+\[
+\dim\Ker(T)=4-3=1.
+\]
+Calculemos el núcleo directamente:
+\[
+x_1+x_2=0,\quad x_2+x_3=0,\quad x_3+x_4=0.
+\]
+De aquí,
+\[
+x_2=-x_1,\quad x_3=x_1,\quad x_4=-x_1,
+\]
+y por tanto
+\[
+\Ker(T)=\Span\bigl((1,-1,1,-1)\bigr).
+\]
+\end{example}
+
+\begin{example}[Diagonalización y potencias de una matriz]
+Sea
+\[
+A=
+\begin{pmatrix}
+5 & 2\\
+2 & 2
+\end{pmatrix}.
+\]
+Su polinomio característico es
+\[
+\lambda^2-7\lambda+6=(\lambda-6)(\lambda-1).
+\]
+Por tanto, los eigenvalores son \(6\) y \(1\), distintos, así que \(A\) es diagonalizable.
+
+Para \(\lambda=6\), resolvemos
+\[
+(A-6I)v=0
+\iff
+\begin{pmatrix}
+-1 & 2\\
+2 & -4
+\end{pmatrix}
+\binom{x}{y}=0,
+\]
+de donde \(x=2y\). Podemos tomar \(v_1=(2,1)\).
+
+Para \(\lambda=1\),
+\[
+(A-I)v=0
+\iff
+\begin{pmatrix}
+4 & 2\\
+2 & 1
+\end{pmatrix}
+\binom{x}{y}=0,
+\]
+de donde \(2x+y=0\). Tomamos \(v_2=(1,-2)\).
+
+Si
+\[
+P=
+\begin{pmatrix}
+2 & 1\\
+1 & -2
+\end{pmatrix},
+\qquad
+D=
+\begin{pmatrix}
+6 & 0\\
+0 & 1
+\end{pmatrix},
+\]
+entonces \(A=PDP^{-1}\). En consecuencia,
+\[
+A^n=PD^nP^{-1}=P
+\begin{pmatrix}
+6^n & 0\\
+0 & 1
+\end{pmatrix}P^{-1}.
+\]
+Esto permite calcular potencias altas de \(A\) de manera cerrada y eficiente.
+\end{example}
+
+\begin{example}[Proyección ortogonal]
+En \(\R^3\), sea
+\[
+U=\Span((1,1,0)).
+\]
+Queremos la proyección ortogonal de \(x=(a,b,c)\) sobre \(U\). Si
+\[
+u=\frac{1}{\sqrt2}(1,1,0),
+\]
+entonces
+\[
+\mathrm{proj}_U(x)=\angles{x,u}u=
+\frac{a+b}{\sqrt2}\cdot \frac{1}{\sqrt2}(1,1,0)
+=\left(\frac{a+b}{2},\frac{a+b}{2},0\right).
+\]
+La componente ortogonal es
+\[
+x-\mathrm{proj}_U(x)=\left(\frac{a-b}{2},\frac{b-a}{2},c\right),
+\]
+que es ortogonal a \((1,1,0)\).
+\end{example}
+
+
+
+\section{Ejercicios con soluciones}
+\begin{summaryBox}
+Las soluciones incluidas están redactadas para mostrar el razonamiento, no solo la respuesta. Una buena práctica es intentar primero cada ejercicio sin mirar la solución y después comparar el método propio con el presentado aquí.
+\end{summaryBox}
+En esta sección se presentan treinta ejercicios graduados. Las soluciones no se limitan al resultado final: se exponen los pasos algebraicos, las ideas de estructura y, cuando conviene, observaciones complementarias.
+
+\subsection{Enunciados}
+\begin{exercise}
+Sea \(U=\{(x,y,z)\in\R^3:x+y+z=0\}\). Probar que \(U\) es subespacio y hallar una base.
+\end{exercise}
+\begin{exercise}
+Determinar si los vectores \((1,0,1),(0,1,1),(1,1,2)\) son linealmente independientes en \(\R^3\).
+\end{exercise}
+\begin{exercise}
+Sea \(V=\Span((1,1,0),(1,0,1),(0,1,1))\subseteq\R^3\). Hallar \(\dim V\).
+\end{exercise}
+\begin{exercise}
+Si \(U,W\subseteq V\) son subespacios con \(U\cap W=\{0\}\), demostrar que la suma \(U+W\) es directa.
+\end{exercise}
+\begin{exercise}
+En \(\R^4\), hallar la dimensión del subespacio generado por \((1,0,1,0),(0,1,0,1),(1,1,1,1)\).
+\end{exercise}
+\begin{exercise}
+Sea \(T:\R^3\to\R^2\), \(T(x,y,z)=(x+y,y+z)\). Hallar \(\Ker(T)\), \(\Ima(T)\), rango y nulidad.
+\end{exercise}
+\begin{exercise}
+Sea \(T:\R^2\to\R^2\), \(T(x,y)=(2x-y,x+3y)\). Hallar su matriz en la base canónica y decidir si es invertible.
+\end{exercise}
+\begin{exercise}
+Probar que toda transformación lineal \(T:V\to W\) queda determinada por sus valores sobre una base de \(V\).
+\end{exercise}
+\begin{exercise}
+Sea \(T:\R_2[X]\to\R_2[X]\), \(T(p)=p'\). Hallar núcleo e imagen.
+\end{exercise}
+\begin{exercise}
+Sea \(A=\begin{pmatrix}1&2\\3&4\end{pmatrix}\). Calcular \(\det(A)\), \(\tr(A)\) y decidir si \(A\) es invertible.
+\end{exercise}
+\begin{exercise}
+Hallar el polinomio característico de \(A=\begin{pmatrix}2&0\\0&5\end{pmatrix}\) y sus eigenvalores.
+\end{exercise}
+\begin{exercise}
+Determinar los eigenvectores de \(A=\begin{pmatrix}2&0\\0&5\end{pmatrix}\).
+\end{exercise}
+\begin{exercise}
+Sea \(A=\begin{pmatrix}1&1\\0&1\end{pmatrix}\). Decidir si es diagonalizable.
+\end{exercise}
+\begin{exercise}
+Calcular \(A^n\) para \(A=\begin{pmatrix}1&1\\0&1\end{pmatrix}\).
+\end{exercise}
+\begin{exercise}
+Sea \(B=\begin{pmatrix}0&-1\\1&0\end{pmatrix}\). Hallar su polinomio característico sobre \(\R\) y sobre \(\C\).
+\end{exercise}
+\begin{exercise}
+Demostrar que matrices semejantes tienen el mismo polinomio característico.
+\end{exercise}
+\begin{exercise}
+Sea \(\varphi:\R^3\to\R\), \(\varphi(x,y,z)=x-2y+z\). Hallar \(\Ker(\varphi)\) y una base de este subespacio.
+\end{exercise}
+\begin{exercise}
+En \(\R^3\) con el producto interno usual, ortonormalizar la base \((1,1,0),(1,0,1),(0,1,1)\) mediante Gram--Schmidt.
+\end{exercise}
+\begin{exercise}
+Hallar la proyección ortogonal de \((1,2,3)\) sobre la recta generada por \((1,1,1)\).
+\end{exercise}
+\begin{exercise}
+Sea \(A\in M_n(\R)\) simétrica. Probar que \(\angles{Ax,x}\in\R\) para todo \(x\).
+\end{exercise}
+\begin{exercise}
+Sea \(A=\begin{pmatrix}2&1\\1&2\end{pmatrix}\). Hallar una base ortonormal de eigenvectores.
+\end{exercise}
+\begin{exercise}
+Sea \(q(x,y)=x^2+4xy+3y^2\). Determinar la matriz asociada y clasificar la forma cuadrática.
+\end{exercise}
+\begin{exercise}
+Probar que todo subespacio de dimensión \(n-1\) de un espacio de dimensión \(n\) es el núcleo de un funcional lineal no nulo.
+\end{exercise}
+\begin{exercise}
+Sea \(V\) un espacio de dimensión finita. Probar que la aplicación natural \(V\to V^{**}\) es un isomorfismo.
+\end{exercise}
+\begin{exercise}
+Calcular \(|\GL_2(\F_3)|\).
+\end{exercise}
+\begin{exercise}
+En \(\F_2^3\), ¿cuántos subespacios de dimensión \(1\) hay?
+\end{exercise}
+\begin{exercise}
+Sea \(T:\F_p^n\to\F_p^m\) lineal. ¿Cuántas transformaciones lineales existen en total?
+\end{exercise}
+\begin{exercise}
+Sea \(A\in M_n(K)\). Probar que si el polinomio mínimo de \(A\) tiene raíces simples y se descompone en \(K[X]\), entonces \(A\) es diagonalizable.
+\end{exercise}
+\begin{exercise}
+Probar el teorema de Cayley--Hamilton para matrices diagonales y extender la conclusión al caso diagonalizable.
+\end{exercise}
+\begin{exercise}
+Sea \(A=\begin{pmatrix}4&0&0\\0&4&1\\0&0&4\end{pmatrix}\). Hallar polinomio característico, polinomio mínimo y decidir si es diagonalizable.
+\end{exercise}
+
+\subsection{Soluciones completas}
+\begin{proof}[Solución del Ejercicio 1]
+La condición \(x+y+z=0\) es homogénea; por tanto \(0\in U\). Si \(u=(x,y,z)\) y \(u'=(x',y',z')\) pertenecen a \(U\), entonces
+\[(x+x')+(y+y')+(z+z')=(x+y+z)+(x'+y'+z')=0,
+\]
+y luego \(u+u'\in U\). Si \(\lambda\in\R\), entonces
+\[\lambda x+\lambda y+\lambda z=\lambda(x+y+z)=0,
+\]
+por lo que \(\lambda u\in U\). Así, \(U\) es subespacio. Además, de \(z=-x-y\) se obtiene
+\[(x,y,z)=x(1,0,-1)+y(0,1,-1).
+\]
+Los vectores \((1,0,-1)\) y \((0,1,-1)\) son linealmente independientes, así que constituyen una base. En particular, \(\dim U=2\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 2]
+Se observa inmediatamente que
+\[(1,1,2)=(1,0,1)+(0,1,1).
+\]
+Por consiguiente, la tercera columna es suma de las dos primeras y la familia es linealmente dependiente.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 3]
+Tomemos como columnas los tres vectores dados:
+\[
+M=\begin{pmatrix}1&1&0\\1&0&1\\0&1&1\end{pmatrix}.
+\]
+Su determinante es
+\[
+\det(M)=1\cdot\det\begin{pmatrix}0&1\\1&1\end{pmatrix}-1\cdot\det\begin{pmatrix}1&1\\0&1\end{pmatrix}=-1-1=-2\neq0.
+\]
+Luego las tres columnas son linealmente independientes y generan \(\R^3\). Por tanto, \(V=\R^3\) y \(\dim V=3\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 4]
+Por definición, la suma \(U+W\) es directa si cada elemento de ella se expresa de modo único como \(u+w\), con \(u\in U\), \(w\in W\). Supongamos que
+\[u_1+w_1=u_2+w_2.
+\]
+Entonces
+\[u_1-u_2=w_2-w_1.
+\]
+El miembro izquierdo pertenece a \(U\) y el derecho a \(W\), luego ambos pertenecen a \(U\cap W\). Como \(U\cap W=\{0\}\), se sigue que \(u_1=u_2\) y \(w_1=w_2\). La descomposición es única; así, \(U+W=U\oplus W\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 5]
+Sea
+\[v_1=(1,0,1,0),\quad v_2=(0,1,0,1),\quad v_3=(1,1,1,1).
+\]
+Se advierte que \(v_3=v_1+v_2\). Por tanto el subespacio generado por los tres coincide con el generado por \(v_1,v_2\). Como \(v_1\) y \(v_2\) son linealmente independientes, la dimensión buscada es \(2\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 6]
+La matriz de \(T\) en las bases canónicas es
+\[
+A=\begin{pmatrix}1&1&0\\0&1&1\end{pmatrix}.
+\]
+Para hallar el núcleo resolvemos
+\[x+y=0,\qquad y+z=0.
+\]
+Tomando \(y=t\), se obtiene \(x=-t\), \(z=-t\). Así,
+\[\Ker(T)=\Span((-1,1,-1)).
+\]
+La imagen está generada por las columnas de \(A\):
+\[(1,0),(1,1),(0,1).
+\]
+Las dos primeras o bien \((1,0),(0,1)\) ya generan \(\R^2\), luego \(\Ima(T)=\R^2\) y \(\rk(T)=2\). Por rango--nulidad, la nulidad es \(1\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 7]
+La imagen de los vectores canónicos es
+\[T(1,0)=(2,1),\qquad T(0,1)=(-1,3).
+\]
+Por tanto,
+\[
+[T]_{\mathrm{can}}=\begin{pmatrix}2&-1\\1&3\end{pmatrix}.
+\]
+Su determinante vale \(2\cdot 3-(-1)\cdot1=7\neq0\). Luego \(T\) es invertible.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 8]
+Si \((e_1,\dots,e_n)\) es una base de \(V\) y se conocen \(T(e_i)\) para todo \(i\), entonces para cualquier vector
+\[v=a_1e_1+\cdots+a_ne_n
+\]
+la linealidad obliga a que
+\[T(v)=a_1T(e_1)+\cdots+a_nT(e_n).
+\]
+No hay libertad adicional. Por tanto, los valores de \(T\) sobre una base determinan completamente la transformación lineal.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 9]
+Todo polinomio de grado a lo más \(2\) tiene la forma \(p(x)=ax^2+bx+c\). Entonces
+\[T(p)=p'(x)=2ax+b.
+\]
+Se tiene \(T(p)=0\) si y solo si \(a=b=0\), es decir, si \(p\) es constante. Luego
+\[\Ker(T)=\Span(1).
+\]
+La imagen está formada por todos los polinomios de grado a lo más \(1\), porque dado \(ux+v\) basta tomar
+\[p(x)=\frac{u}{2}x^2+vx.
+\]
+Por tanto,
+\[\Ima(T)=\R_1[X].
+\]
+\end{proof}
+\begin{proof}[Solución del Ejercicio 10]
+Se calcula
+\[\det(A)=1\cdot 4-2\cdot 3=-2,
+\qquad
+\tr(A)=1+4=5.
+\]
+Como el determinante es no nulo, \(A\) es invertible.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 11]
+Como la matriz es diagonal,
+\[\chi_A(\lambda)=\det(\lambda I-A)=(\lambda-2)(\lambda-5).
+\]
+Los eigenvalores son, por tanto, \(2\) y \(5\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 12]
+Para \(\lambda=2\), la ecuación \((A-2I)v=0\) impone solo que la segunda coordenada sea cero; el espacio propio es \(\Span((1,0))\). Para \(\lambda=5\), la primera coordenada debe ser cero, así que el espacio propio es \(\Span((0,1))\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 13]
+El único eigenvalor de \(A\) es \(1\), con multiplicidad algebraica \(2\). El espacio propio se obtiene resolviendo
+\[(A-I)v=0\iff \begin{pmatrix}0&1\\0&0\end{pmatrix}\binom{x}{y}=0,
+\]
+lo que fuerza \(y=0\). Así, el espacio propio tiene dimensión \(1\), menor que la multiplicidad algebraica. Por tanto, \(A\) no es diagonalizable.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 14]
+Escribimos \(A=I+N\) con
+\[N=\begin{pmatrix}0&1\\0&0\end{pmatrix},\qquad N^2=0.
+\]
+Entonces, por el binomio,
+\[A^n=(I+N)^n=I+nN=\begin{pmatrix}1&n\\0&1\end{pmatrix}
+\]
+para todo entero \(n\ge 0\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 15]
+Se tiene
+\[
+\chi_B(\lambda)=\det\begin{pmatrix}\lambda&1\\-1&\lambda\end{pmatrix}=\lambda^2+1.
+\]
+Sobre \(\R\), este polinomio es irreducible y no hay eigenvalores reales. Sobre \(\C\), se descompone como \((\lambda-i)(\lambda+i)\), de modo que los eigenvalores son \(i\) y \(-i\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 16]
+Si \(B=P^{-1}AP\), entonces
+\[\chi_B(\lambda)=\det(\lambda I-P^{-1}AP)=\det(P^{-1}(\lambda I-A)P).
+\]
+Usando multiplicatividad del determinante,
+\[\chi_B(\lambda)=\det(P^{-1})\det(\lambda I-A)\det(P)=\chi_A(\lambda).
+\]
+Luego matrices semejantes tienen el mismo polinomio característico.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 17]
+Resolver \(x-2y+z=0\) equivale a escribir \(x=2y-z\). Por tanto,
+\[(x,y,z)=y(2,1,0)+z(-1,0,1).
+\]
+Luego
+\[\Ker(\varphi)=\Span((2,1,0),(-1,0,1)).
+\]
+Estos dos vectores son linealmente independientes, así que forman una base.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 18]
+Sea \(v_1=(1,1,0)\), \(v_2=(1,0,1)\), \(v_3=(0,1,1)\). Tomamos
+\[u_1=v_1,
+\qquad e_1=\frac{u_1}{\|u_1\|}=\frac1{\sqrt2}(1,1,0).
+\]
+Luego
+\[u_2=v_2-\angles{v_2,e_1}e_1=(1,0,1)-\frac1{\sqrt2}e_1=\left(\frac12,-\frac12,1\right).
+\]
+Multiplicando por \(2\), podemos usar \(u_2'=(1,-1,2)\), cuya norma es \(\sqrt6\). Entonces
+\[e_2=\frac1{\sqrt6}(1,-1,2).
+\]
+Finalmente,
+\[u_3=v_3-\angles{v_3,e_1}e_1-\angles{v_3,e_2}e_2.
+\]
+Como \(\angles{v_3,e_1}=1/\sqrt2\) y \(\angles{v_3,e_2}=1/\sqrt6\), se obtiene
+\[u_3=\left(-\frac23,\frac23,\frac23\right).
+\]
+Podemos tomar \(u_3'=(-1,1,1)\), y entonces
+\[e_3=\frac1{\sqrt3}(-1,1,1).
+\]
+La base ortonormal resultante es
+\[\left\{\frac1{\sqrt2}(1,1,0),\frac1{\sqrt6}(1,-1,2),\frac1{\sqrt3}(-1,1,1)\right\}.
+\]
+\end{proof}
+\begin{proof}[Solución del Ejercicio 19]
+Si \(u=(1,1,1)\), entonces
+\[\mathrm{proj}_{\Span(u)}(x)=\frac{\angles{x,u}}{\angles{u,u}}u.
+\]
+Para \(x=(1,2,3)\),
+\[\angles{x,u}=6,
+\qquad
+\angles{u,u}=3.
+\]
+Por tanto,
+\[\mathrm{proj}_{\Span(u)}(1,2,3)=2(1,1,1)=(2,2,2).
+\]
+\end{proof}
+\begin{proof}[Solución del Ejercicio 20]
+Si \(A\) es simétrica, entonces \(A\transpose=A\). Para todo \(x\in\R^n\),
+\[\angles{Ax,x}=x\transpose Ax.
+\]
+Esta cantidad es un escalar real, pues se obtiene por multiplicación de matrices reales de tamaños compatibles. Además,
+\[(x\transpose Ax)\transpose=x\transpose A\transpose x=x\transpose Ax,
+\]
+lo cual subraya que coincide con su propio traspuesto.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 21]
+El polinomio característico es
+\[\chi_A(\lambda)=(\lambda-3)(\lambda-1).
+\]
+Para \(\lambda=3\), un eigenvector es \((1,1)\). Para \(\lambda=1\), un eigenvector es \((1,-1)\). Tras normalizar, obtenemos
+\[e_1=\frac1{\sqrt2}(1,1),\qquad e_2=\frac1{\sqrt2}(1,-1).
+\]
+Como \(A\) es simétrica, estos eigenvectores correspondientes a eigenvalores distintos son ortogonales; después de normalizar, forman una base ortonormal.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 22]
+La forma cuadrática se escribe como
+\[q(x,y)=\begin{pmatrix}x&y\end{pmatrix}\begin{pmatrix}1&2\\2&3\end{pmatrix}\binom{x}{y}.
+\]
+La matriz asociada es, por tanto,
+\[M=\begin{pmatrix}1&2\\2&3\end{pmatrix}.
+\]
+Su determinante es \(3-4=-1<0\), así que los eigenvalores tienen signos opuestos. Por consiguiente, la forma es indefinida.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 23]
+Sea \(W\subseteq V\) de dimensión \(n-1\). Tomemos una base \((w_1,\dots,w_{n-1})\) de \(W\) y complétese a una base \((w_1,\dots,w_{n-1},v)\) de \(V\). Definimos \(\varphi\in V^*\) por
+\[\varphi(w_i)=0\quad (1\le i\le n-1),\qquad \varphi(v)=1.
+\]
+Entonces \(\varphi\neq0\) y todo vector de \(V\) está en su núcleo exactamente cuando la coordenada de \(v\) es cero, es decir, exactamente cuando pertenece a \(W\). Luego \(W=\Ker(\varphi)\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 24]
+La aplicación natural \(\iota:V\to V^{**}\) está dada por
+\[\iota(v)(f)=f(v),\qquad f\in V^*.
+\]
+Es lineal. Si \(\iota(v)=0\), entonces todo funcional lineal se anula en \(v\). En dimensión finita, si \(v\neq0\), puede completarse \(v\) a una base y construirse un funcional que valga \(1\) en \(v\). Por tanto, \(\iota\) es inyectiva. Pero \(\dim V^{**}=\dim V^*=\dim V\), así que una aplicación lineal inyectiva entre espacios finitos de la misma dimensión es automáticamente biyectiva. Luego \(\iota\) es isomorfismo.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 25]
+Para contar matrices invertibles de tamaño \(2\times2\) sobre \(\F_3\), elegimos primero la primera columna distinta de cero: hay \(3^2-1=8\) posibilidades. La segunda columna debe no pertenecer a la recta generada por la primera; esa recta tiene \(3\) elementos. Por tanto hay \(3^2-3=6\) opciones. En consecuencia,
+\[|\GL_2(\F_3)|=(9-1)(9-3)=8\cdot 6=48.
+\]
+\end{proof}
+\begin{proof}[Solución del Ejercicio 26]
+Un subespacio de dimensión \(1\) de \(\F_2^3\) está generado por cualquier vector no nulo, y sobre \(\F_2\) cada recta contiene exactamente un vector no nulo además de \(0\), porque los únicos escalares son \(0\) y \(1\). Como hay \(2^3-1=7\) vectores no nulos, hay exactamente \(7\) subespacios de dimensión \(1\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 27]
+Una transformación lineal \(T:\F_p^n\to\F_p^m\) queda determinada por las imágenes de una base del dominio. Hay \(n\) vectores de base y cada uno puede enviarse arbitrariamente a cualquier vector de \(\F_p^m\), del cual hay \(p^m\) opciones. Por tanto, el número total de transformaciones lineales es
+\[(p^m)^n=p^{mn}.
+\]
+Equivale al número de matrices \(m\times n\) sobre \(\F_p\).
+\end{proof}
+\begin{proof}[Solución del Ejercicio 28]
+Supongamos que el polinomio mínimo de \(A\) es
+\[m_A(X)=\prod_{j=1}^r (X-\lambda_j),
+\]
+con \(\lambda_j\in K\) distintos. Los factores son coprimos dos a dos. Por el teorema de descomposición primaria, o bien por identidades de Bézout aplicadas a estos factores coprimos, el espacio se descompone como suma directa de los núcleos
+\[V=\bigoplus_{j=1}^r \Ker(A-\lambda_j I).
+\]
+Es decir, \(V\) es suma directa de los espacios propios. Por tanto existe una base formada por eigenvectores y \(A\) es diagonalizable.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 29]
+Si \(D=\diag(\lambda_1,\dots,\lambda_n)\), entonces
+\[\chi_D(X)=\prod_{i=1}^n (X-\lambda_i).
+\]
+Al evaluar en \(D\), obtenemos una matriz diagonal cuyas entradas son \(\chi_D(\lambda_i)=0\). Luego \(\chi_D(D)=0\). Si ahora \(A=PDP^{-1}\) es diagonalizable, entonces
+\[\chi_A(A)=\chi_A(PDP^{-1})=P\chi_D(D)P^{-1}=0.
+\]
+Por consiguiente, Cayley--Hamilton vale para matrices diagonales y, por invariancia polinómica bajo semejanza, también para matrices diagonalizables.
+\end{proof}
+\begin{proof}[Solución del Ejercicio 30]
+Como \(A\) es triangular superior, su polinomio característico es
+\[\chi_A(X)=(X-4)^3.
+\]
+Escribamos \(A=4I+N\), con
+\[N=\begin{pmatrix}0&0&0\\0&0&1\\0&0&0\end{pmatrix}.
+\]
+Se verifica que \(N\neq0\) y \(N^2=0\). Entonces
+\[(A-4I)^2=N^2=0,
+\qquad
+A-4I\neq0.
+\]
+Por tanto, el polinomio mínimo es \((X-4)^2\). Como el polinomio mínimo tiene una raíz repetida, la matriz no es diagonalizable. Equivalenteemente, el espacio propio para \(4\) tiene dimensión \(2\), no \(3\).
+\end{proof}
+
+\section{Aplicaciones finales: cadenas de Markov en BA, Marketing y Finanzas}
+\begin{ideaBox}
+Las cadenas de Markov son un ejemplo especialmente claro de cómo el álgebra lineal se vuelve una herramienta de decisión. Los estados de un sistema se codifican como coordenadas de un vector de probabilidades y la dinámica temporal se representa por una matriz de transición. Evolucionar el sistema un paso, diez pasos o cien pasos equivale a multiplicar por una matriz y estudiar sus potencias.
+\end{ideaBox}
+
+\begin{definition}
+Una \emph{matriz de transición} es una matriz \(P=(p_{ij})\) con entradas no negativas tal que cada columna suma \(1\). Si \(x_n\) es el vector columna de probabilidades en el tiempo \(n\), la evolución viene dada por
+\[
+x_{n+1}=Px_n.
+\]
+En consecuencia,
+\[
+x_n=P^n x_0.
+\]
+\end{definition}
+
+\begin{remark}
+Muchos textos usan vectores fila y escriben \(x_{n+1}=x_nP\) con matrices cuyas filas suman \(1\). Ambas convenciones son equivalentes; aquí usamos vectores columna porque encajan naturalmente con el punto de vista lineal del curso.
+\end{remark}
+
+\begin{summaryBox}
+Los objetos lineales clave son inmediatos:
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item \textbf{potencias de matrices:} describen la evolución en varios periodos;
+\item \textbf{eigenvalor \(1\):} codifica distribuciones estacionarias;
+\item \textbf{descomposición espectral:} explica convergencia y velocidad de mezcla;
+\item \textbf{subespacios invariantes:} separan comportamiento transitorio y estable.
+\end{enumerate}
+\end{summaryBox}
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, node distance=2.8cm]
+  \node[draw=ihesblue, rounded corners=7pt, fill=blue!4, minimum width=2.3cm, minimum height=0.95cm] (A) {$E_1$};
+  \node[draw=ihesblue, rounded corners=7pt, fill=blue!4, minimum width=2.3cm, minimum height=0.95cm, right of=A] (B) {$E_2$};
+  \node[draw=ihesblue, rounded corners=7pt, fill=blue!4, minimum width=2.3cm, minimum height=0.95cm, right of=B] (C) {$E_3$};
+  \draw[->,thick] (A) to[bend left=18] node[above,font=\small] {$p_{21}$} (B);
+  \draw[->,thick] (B) to[bend left=18] node[below,font=\small] {$p_{12}$} (A);
+  \draw[->,thick] (B) to[bend left=18] node[above,font=\small] {$p_{32}$} (C);
+  \draw[->,thick] (C) to[bend left=18] node[below,font=\small] {$p_{23}$} (B);
+  \draw[->,thick] (A) to[bend left=30] node[above,font=\small] {$p_{31}$} (C);
+  \draw[->,thick] (C) to[bend left=30] node[below,font=\small] {$p_{13}$} (A);
+  \draw[->,thick] (A) edge[loop above] node[font=\small] {$p_{11}$} (A);
+  \draw[->,thick] (B) edge[loop above] node[font=\small] {$p_{22}$} (B);
+  \draw[->,thick] (C) edge[loop above] node[font=\small] {$p_{33}$} (C);
+\end{tikzpicture}
+
+{\small Figura guía: una cadena de Markov finita es una red dirigida cuyos pesos forman una matriz de transición.}
+\end{center}
+
+\subsection{Business Analytics: ciclo de vida de clientes}
+
+Supongamos que una empresa clasifica a sus clientes en tres estados: \emph{nuevo} \((N)\), \emph{activo} \((A)\) y \emph{inactivo} \((I)\). Una posible matriz de transición mensual es
+\[
+P_{BA}=
+\begin{pmatrix}
+0.55 & 0.10 & 0.08\\
+0.35 & 0.75 & 0.22\\
+0.10 & 0.15 & 0.70
+\end{pmatrix},
+\]
+donde, por ejemplo, la segunda columna dice que un cliente activo permanece activo con probabilidad \(0.75\), se vuelve nuevo con probabilidad \(0.10\) y pasa a inactivo con probabilidad \(0.15\).
+
+Si al inicio del mes la distribución es
+\[
+x_0=
+\begin{pmatrix}
+0.20\\0.60\\0.20
+\end{pmatrix},
+\]
+entonces
+\[
+x_1=P_{BA}x_0=
+\begin{pmatrix}
+0.186\\0.564\\0.250
+\end{pmatrix}.
+\]
+Esto significa que, después de un periodo, el porcentaje esperado de clientes inactivos aumenta de \(20\%\) a \(25\%\).
+
+\begin{methodBox}
+En Business Analytics, una cadena de Markov sirve para:
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item anticipar la composición futura de una cartera de clientes,
+\item detectar fugas o cuellos de botella en el embudo de conversión,
+\item comparar escenarios modificando algunas probabilidades de transición,
+\item cuantificar el efecto de una campaña de retención sobre la dinámica total.
+\end{enumerate}
+\end{methodBox}
+
+\subsection{Marketing: cambio de marca y lealtad del consumidor}
+
+Imaginemos tres marcas competidoras \(M_1,M_2,M_3\). Un consumidor puede permanecer fiel o cambiar de marca en cada periodo. Una matriz de transición posible es
+\[
+P_{MK}=
+\begin{pmatrix}
+0.80 & 0.15 & 0.10\\
+0.15 & 0.70 & 0.20\\
+0.05 & 0.15 & 0.70
+\end{pmatrix}.
+\]
+El estado estacionario \(\pi\) satisface
+\[
+P_{MK}\pi=\pi,
+\qquad
+\pi_1+\pi_2+\pi_3=1.
+\]
+Resolver este sistema significa estimar la cuota de mercado de largo plazo cuando el patrón de switching permanece estable.
+
+\begin{intuitionBox}
+El eigenvalor \(1\) tiene aquí una lectura directa: su eigenvector asociado representa una distribución de mercado que ya no cambia al aplicar la matriz de transición. Es una fotografía estable del sistema competitivo.
+\end{intuitionBox}
+
+Desde el punto de vista de marketing, esto permite responder preguntas como: ¿qué marca retiene mejor a sus clientes?, ¿cuál pierde más participación por migración?, ¿qué tan sensible es el equilibrio a una mejora en la tasa de recompra?, ¿qué ocurre si una campaña reduce el cambio desde \(M_2\) hacia \(M_1\)?
+
+\subsection{Finanzas: migración de calificaciones crediticias}
+
+En finanzas, las cadenas de Markov se usan con frecuencia para describir migraciones entre categorías de riesgo. Consideremos los estados \(A\) (grado alto), \(B\) (grado medio) y \(D\) (default), donde \(D\) es absorbente. Una matriz de transición anual puede ser
+\[
+P_{FI}=
+\begin{pmatrix}
+0.90 & 0.08 & 0\\
+0.08 & 0.82 & 0\\
+0.02 & 0.10 & 1
+\end{pmatrix}.
+\]
+Si una empresa comienza en la categoría \(B\), el vector inicial es
+\[
+x_0=
+\begin{pmatrix}
+0\\1\\0
+\end{pmatrix},
+\qquad
+x_1=P_{FI}x_0=
+\begin{pmatrix}
+0.08\\0.82\\0.10
+\end{pmatrix}.
+\]
+Por tanto, la probabilidad de default al cabo de un año es \(10\%\). A dos años se obtiene \(x_2=P_{FI}^2x_0\), y así sucesivamente.
+
+\begin{example}[Interpretación financiera]
+La potencia \(P_{FI}^n\) permite estimar probabilidades acumuladas de degradación o default a horizonte \(n\). Esta información se usa en valuación de deuda, stress testing, provisiones esperadas y gestión de riesgo crediticio.
+\end{example}
+
+\subsection{Lectura lineal de las cadenas de Markov}
+
+Los tres ejemplos anteriores muestran el mismo patrón matemático. Primero se define un conjunto finito de estados; después se construye una matriz de transición; finalmente se estudian vectores y potencias matriciales. Desde el punto de vista del curso, las preguntas importantes son lineales:
+\begin{itemize}
+\item ¿cómo actúa la matriz sobre el simplex de probabilidades?,
+\item ¿qué eigenvectores controlan el comportamiento de largo plazo?,
+\item ¿qué subespacios son invariantes?,
+\item ¿qué tan rápido convergen las potencias \(P^n\)?
+\end{itemize}
+
+\begin{summaryBox}
+\textbf{Mensaje final.} Las cadenas de Markov muestran de forma muy concreta por qué el álgebra lineal es un lenguaje universal. La misma operación matricial \(x_{n+1}=Px_n\) puede significar retención de clientes en Business Analytics, switching de marca en Marketing o migración de riesgo en Finanzas. Cambia la interpretación económica; la estructura lineal permanece.
+\end{summaryBox}
+
+
+\section{Aplicaciones finales: el simplex estándar en datos, mezclas y decisiones}
+
+Además de las matrices y de los operadores lineales, hay otro objeto geométrico que aparece una y otra vez en aplicaciones: el \emph{simplex estándar}. Su importancia práctica proviene de que describe situaciones en las que varias cantidades son no negativas y, además, suman uno. Dicho de otro modo: el simplex estándar modela composiciones, mezclas, distribuciones de probabilidad, cuotas de mercado, participaciones presupuestales y pesos de portafolios.
+
+\begin{definition}
+El \emph{simplex estándar} de dimensión $n-1$ es el conjunto
+\[
+\Delta^{n-1}=\set{x=(x_1,\dots,x_n)\in\R^n: x_i\ge 0\ \text{para todo }i,\ x_1+\cdots+x_n=1}.
+\]
+Sus vértices son los vectores canónicos $e_1,\dots,e_n$.
+\end{definition}
+
+\begin{intuitionBox}
+El simplex estándar es el espacio natural de las \emph{mezclas}. Un punto del simplex no escoge una sola alternativa, sino una combinación ponderada de varias alternativas con pesos que suman uno. Por eso aparece tanto en aprendizaje automático, analítica de negocios, marketing, finanzas y cadenas de Markov.
+\end{intuitionBox}
+
+\subsection{Lectura geométrica del simplex}
+
+En dimensión $2$, el simplex $\Delta^1$ es el segmento entre $(1,0)$ y $(0,1)$. En dimensión $3$, el simplex $\Delta^2$ es un triángulo lleno con vértices
+\[
+e_1=(1,0,0),\qquad e_2=(0,1,0),\qquad e_3=(0,0,1).
+\]
+Todo punto $x\in\Delta^2$ tiene la forma
+\[
+x=\lambda_1 e_1+\lambda_2 e_2+\lambda_3 e_3,
+\qquad
+\lambda_i\ge 0,
+\qquad
+\lambda_1+\lambda_2+\lambda_3=1.
+\]
+Es decir, cada punto es una combinación convexa de los vértices. La posición geométrica del punto codifica inmediatamente la importancia relativa de cada componente.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.08]
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (5.8,0);
+  \coordinate (C) at (2.9,4.8);
+  \coordinate (P) at (2.55,1.65);
+
+  \fill[blue!5] (A) -- (B) -- (C) -- cycle;
+  \draw[very thick, ihesblue] (A) -- (B) -- (C) -- cycle;
+  \fill[ihesblue] (A) circle (2pt) node[below left=2pt] {$e_1$};
+  \fill[ihesblue] (B) circle (2pt) node[below right=2pt] {$e_2$};
+  \fill[ihesblue] (C) circle (2pt) node[above=2pt] {$e_3$};
+
+  \fill[red!70!black] (P) circle (2.4pt) node[right=3pt] {$x=(\lambda_1,\lambda_2,\lambda_3)$};
+  \draw[dashed, gray!70] (P) -- ($(A)!0.55!(B)$);
+  \draw[dashed, gray!70] (P) -- ($(A)!0.55!(C)$);
+  \draw[dashed, gray!70] (P) -- ($(B)!0.45!(C)$);
+
+  \node[font=\small, align=center, fill=white, inner sep=2pt] at (2.9,-0.75)
+    {$\lambda_1+\lambda_2+\lambda_3=1$\\$\lambda_i\ge 0$};
+\end{tikzpicture}
+
+{\small Figura guía: el simplex estándar $\Delta^2$ representa todas las mezclas posibles de tres componentes.}
+\end{center}
+
+\begin{proposition}
+El simplex estándar $\Delta^{n-1}$ es un conjunto convexo. Más aún, es la envolvente convexa de los vectores canónicos:
+\[
+\Delta^{n-1}=\operatorname{conv}\set{e_1,\dots,e_n}.
+\]
+\end{proposition}
+
+\begin{proof}
+Si $x,y\in\Delta^{n-1}$ y $0\le t\le 1$, entonces cada componente de $tx+(1-t)y$ es no negativa. Además,
+\[
+\sum_{i=1}^n \bigl(tx_i+(1-t)y_i\bigr)=t\sum_{i=1}^n x_i+(1-t)\sum_{i=1}^n y_i=t+(1-t)=1.
+\]
+Por tanto $tx+(1-t)y\in\Delta^{n-1}$, lo que prueba la convexidad. Por otra parte, si $x\in\Delta^{n-1}$, entonces
+\[
+x=x_1e_1+\cdots+x_ne_n,
+\]
+y los coeficientes son no negativos y suman uno; así, $x$ es combinación convexa de los vértices. La inclusión opuesta es inmediata por definición.
+\end{proof}
+
+\begin{methodBox}
+Desde el punto de vista lineal, el simplex estándar es la intersección del ortante no negativo con el hiperplano afín
+\[
+\set{x\in\R^n: \mathbf{1}^{\mathsf T}x=1}.
+\]
+Por ello, las restricciones de suma total fija y de no negatividad pueden estudiarse con las mismas herramientas matriciales del curso: subespacios trasladados, proyecciones, cambios de base y aplicaciones lineales.
+\end{methodBox}
+
+\subsection{¿Por qué aparece tan seguido?}
+
+El simplex estándar aparece cada vez que un vector representa \emph{participaciones} y no cantidades absolutas. Algunos ejemplos inmediatos son:
+\begin{itemize}
+\item una distribución de probabilidad sobre $n$ estados,
+\item una cuota de mercado repartida entre $n$ marcas,
+\item un presupuesto distribuido entre $n$ canales,
+\item pesos de un portafolio largo--only totalmente invertido,
+\item una mezcla de insumos o productos que debe sumar el total disponible.
+\end{itemize}
+
+La ventaja conceptual es grande: una vez que el problema se escribe dentro de $\Delta^{n-1}$, se puede distinguir entre \emph{extremos} (vértices), \emph{mezclas} (puntos interiores), \emph{restricciones} (caras del simplex) y \emph{transiciones} (aplicaciones que llevan simplex en simplex).
+
+\subsection{Business Analytics: composición de clientes y mezcla de productos}
+
+En Business Analytics es frecuente trabajar con vectores de composición. Supongamos que una empresa distribuye a sus clientes en tres categorías: \emph{premium}, \emph{estándar} y \emph{ocasional}. Si la estructura actual es
+\[
+x=
+\begin{pmatrix}
+0.25\\0.50\\0.25
+\end{pmatrix},
+\]
+entonces $x\in\Delta^2$. Esto no describe el número total de clientes, sino su \emph{reparto relativo}. Desde un punto de vista gerencial, moverse de
+\[
+\begin{pmatrix}
+0.25\\0.50\\0.25
+\end{pmatrix}
+\quad \text{a} \quad
+\begin{pmatrix}
+0.35\\0.45\\0.20
+\end{pmatrix}
+\]
+significa desplazar la mezcla hacia clientes de mayor valor.
+
+La estructura simplex permite responder preguntas como:
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item ¿la mezcla actual está demasiado concentrada en un solo segmento?,
+\item ¿cómo cambia la composición después de una campaña de retención?,
+\item ¿qué tan lejos estamos de una composición objetivo?,
+\item ¿qué restricciones impiden movernos a cierta región del simplex?
+\end{enumerate}
+
+\begin{example}[Mezcla de productos]
+Una empresa vende tres líneas de producto con participaciones relativas
+\[
+p=
+\begin{pmatrix}
+0.50\\0.30\\0.20
+\end{pmatrix}
+\in \Delta^2.
+\]
+Si la dirección quiere alcanzar la meta
+\[
+q=
+\begin{pmatrix}
+0.40\\0.35\\0.25
+\end{pmatrix},
+\]
+puede estudiar el vector diferencia $q-p$, pero siempre recordando que tanto $p$ como $q$ deben permanecer en el simplex. El problema ya no es de crecimiento absoluto, sino de reconfiguración relativa del portafolio.
+\end{example}
+
+\subsection{Marketing: asignación de presupuesto y tráfico entre canales}
+
+En marketing digital, un presupuesto suele repartirse entre varios canales: búsqueda pagada, redes sociales, email y display, por ejemplo. Si $x_i$ representa la fracción del presupuesto dedicada al canal $i$, entonces el vector de asignación vive naturalmente en $\Delta^{n-1}$.
+
+Para tres canales, una estrategia como
+\[
+x=
+\begin{pmatrix}
+0.45\\0.35\\0.20
+\end{pmatrix}
+\]
+indica que el $45\%$ del gasto va al primer canal, el $35\%$ al segundo y el $20\%$ al tercero. La utilidad del simplex es que cualquier redistribución debe seguir satisfaciendo las dos condiciones esenciales: no negatividad y suma total fija.
+
+\begin{intuitionBox}
+Las caras del simplex representan \emph{estrategias con exclusión}. Por ejemplo, en $\Delta^2$, un lado del triángulo significa que uno de los canales recibe exactamente cero presupuesto. Los vértices corresponden a estrategias extremas: todo el presupuesto en un solo canal.
+\end{intuitionBox}
+
+Esto permite formular preguntas operativas muy concretas:
+\begin{itemize}
+\item ¿conviene una mezcla diversificada o una estrategia concentrada?,
+\item ¿qué ocurre con la tasa de conversión si nos movemos a lo largo de una arista del simplex?,
+\item ¿cómo representar campañas A/B/n cuando el tráfico debe repartirse entre varias variantes?
+\end{itemize}
+
+Matemáticamente, un criterio de desempeño puede escribirse como una función del vector $x$. En una primera aproximación lineal,
+\[
+\text{ROI}(x)=r^{\mathsf T}x,
+\]
+donde $r_i$ es el rendimiento estimado del canal $i$. Entonces la geometría del simplex aclara una idea importante: si el objetivo es estrictamente lineal y no hay más restricciones, el óptimo aparece en un vértice. En cambio, si se introducen restricciones adicionales o funciones no lineales, el mejor punto puede estar en el interior.
+
+\subsection{Finanzas: pesos de portafolio largo--only}
+
+Un portafolio sin ventas en corto y completamente invertido se representa por un vector de pesos
+\[
+w=(w_1,\dots,w_n)\in\Delta^{n-1}.
+\]
+Cada componente $w_i$ es la fracción del capital colocada en el activo $i$. La condición de pertenencia al simplex expresa exactamente dos restricciones financieras habituales:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item no se permite tomar posiciones negativas, esto es, $w_i\ge 0$;
+\item todo el capital se invierte, esto es, $\sum_i w_i=1$.
+\end{enumerate}
+
+\begin{example}[Portafolio de tres activos]
+Si
+\[
+w=
+\begin{pmatrix}
+0.50\\0.30\\0.20
+\end{pmatrix},
+\]
+entonces el $50\%$ del capital se coloca en el primer activo, el $30\%$ en el segundo y el $20\%$ en el tercero. Un movimiento dentro del simplex representa un rebalanceo. Por ejemplo,
+\[
+\widetilde w=
+\begin{pmatrix}
+0.40\\0.35\\0.25
+\end{pmatrix}
+\]
+indica una reducción del peso dominante y una diversificación mayor.
+\end{example}
+
+En este lenguaje, el rendimiento esperado del portafolio es
+\[
+\mu_p=\mu^{\mathsf T}w,
+\]
+mientras que el riesgo cuadrático se escribe como
+\[
+\sigma_p^2=w^{\mathsf T}\Sigma w.
+\]
+La parte lineal del curso aparece en la primera fórmula; la parte bilineal y cuadrática aparece en la segunda. Pero el dominio natural de ambas funciones sigue siendo el simplex estándar.
+
+\begin{summaryBox}
+En finanzas, el simplex estándar no es una construcción abstracta: es literalmente el espacio de todas las asignaciones posibles de capital cuando hay restricción de inversión total y no negatividad. La geometría del simplex ayuda a interpretar concentración, diversificación, rebalanceo y carteras extremas.
+\end{summaryBox}
+
+\subsection{Relación con matrices estocásticas y cadenas de Markov}
+
+La sección anterior sobre cadenas de Markov encaja de manera natural aquí. Si $P$ es una matriz estocástica por columnas, entonces para todo $x\in\Delta^{n-1}$ se tiene
+\[
+Px\in\Delta^{n-1}.
+\]
+En efecto, las entradas de $Px$ siguen siendo no negativas y la suma total se conserva. Por tanto, una cadena de Markov es una dinámica lineal que actúa \emph{dentro} del simplex.
+
+\begin{proposition}
+Sea $P\in\Mat_n(\R)$ una matriz con entradas no negativas cuyas columnas suman $1$. Entonces la aplicación lineal
+\[
+T_P:\R^n\to\R^n,
+\qquad
+T_P(x)=Px,
+\]
+preserva el simplex estándar: $T_P(\Delta^{n-1})\subseteq \Delta^{n-1}$.
+\end{proposition}
+
+\begin{proof}
+Sea $x\in\Delta^{n-1}$. Como $P$ tiene entradas no negativas y $x_i\ge 0$, todas las coordenadas de $Px$ son no negativas. Además, si $\mathbf{1}$ denota el vector de unos, entonces
+\[
+\mathbf{1}^{\mathsf T}(Px)=(\mathbf{1}^{\mathsf T}P)x=\mathbf{1}^{\mathsf T}x=1,
+\]
+porque las columnas de $P$ suman uno. Luego $Px\in\Delta^{n-1}$.
+\end{proof}
+
+\begin{methodBox}
+Esta observación une tres capas del curso:
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item el simplex estándar describe estados composicionales;
+\item las matrices estocásticas son operadores lineales que preservan ese conjunto;
+\item los eigenvectores asociados al eigenvalor $1$ describen equilibrios o distribuciones estacionarias.
+\end{enumerate}
+\end{methodBox}
+
+\subsection{Mensaje conceptual final sobre el simplex}
+
+El simplex estándar muestra con claridad la alianza entre geometría, álgebra y decisión. Geométricamente, es un politopo convexo con vértices, aristas y caras. Algebraicamente, es la solución de un sistema lineal con restricciones de signo. Aplicadamente, representa mezclas posibles. Por eso el mismo objeto aparece en distribución de clientes, combinación de canales, cuotas de mercado, pesos de portafolio, probabilidades de transición y mezclas de productos.
+
+\begin{summaryBox}
+\textbf{Mensaje final de la sección.} Cuando una variable no representa un nivel absoluto sino una participación, una mezcla o una probabilidad, el espacio natural deja de ser todo $\R^n$ y pasa a ser el simplex estándar. En ese momento, el álgebra lineal sigue operando, pero ahora lo hace sobre un dominio geométricamente restringido y mucho más interpretable.
+\end{summaryBox}
+
+\begin{summaryBox}
+El hilo conductor de todo el documento es que una buena elección de descomposición y una buena elección de base revelan la estructura oculta de un problema lineal. Subespacios, cocientes, núcleos, imágenes, eigenespacios, cadenas de Jordan, descomposiciones ortogonales y matrices de transición son manifestaciones de una misma estrategia: separar el espacio en piezas simples sobre las que el fenómeno se vuelve transparente.
+\end{summaryBox}
+
+\end{document}
