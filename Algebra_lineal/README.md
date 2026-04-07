@@ -1,2 +1,2 @@
-#Algebra_Lineal 
+Algebra Lineal 
 
